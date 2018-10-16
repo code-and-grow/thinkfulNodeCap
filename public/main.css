@@ -1,0 +1,286 @@
+body {
+  width: 80%;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+header {
+  margin-top: 14px;
+}
+
+.header-name {
+  padding: 14px 16px;
+  display: block;
+  float: left;
+}
+
+nav {
+  display: block;
+}
+ 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+  color: white;
+}
+
+h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+h2 {
+  margin-bottom: 0px;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.search-form,
+.login-form,
+.create-account-form {
+  padding: 1.5% 3% 3%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.search-form input,
+.login-form input,
+.create-account-form input {
+  display: block;
+  margin: 8px auto;
+  padding: 2%;
+  font-size: 0.9rem;
+}
+
+.search-form h2 {
+  padding-bottom: 20px;
+}
+
+input[type=submit] {
+  margin-top: 20px;
+}
+
+input[type=submit],
+input[type=button] {
+  padding:15px 25px; 
+  background:#ccc; 
+  border:0 none;
+  cursor:pointer;
+}
+
+input[type=submit]:hover,
+input[type=button]:hover {
+  background: #888888;; 
+  color: #fff;
+}
+
+input[type=checkbox] {
+  display: inline-block;
+  padding:15px 25px; 
+  background:#ccc; 
+  border:0 none;
+  cursor:pointer;
+}
+
+.err-message {
+  display: block;
+  background: red;
+}
+
+.err-message h4 {
+  margin: 10px;
+  color: white;
+  text-align: center;
+  padding: 5px;
+}
+
+#allergies,
+#courses {
+  /*display: none;*/
+  text-align: center;
+}
+
+#allergies label,
+#courses label {
+  padding: 5px;
+}
+
+.checkbox {
+  display: inline-block;
+  max-width: 220px;
+  padding: 2px 10px;
+}
+
+.included-tags-input,
+.excluded-tags-input {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/*.included-tags-input input,
+.excluded-tags-input input {
+  display: inline-block;
+}
+*/
+
+.included-tags-input .tag,
+.excluded-tags-input .tag {
+  font-size: 85%;
+  padding: 0.5em 0.75em;
+  margin: 0.25em 0.1em;
+  display: inline-block;
+  background-color: #ddd;
+  transition: all 0.1s linear;
+  cursor: pointer;
+}
+
+.included-tags-input .tag:hover,
+.excluded-tags-input .tag:hover {
+  background-color: #3af;
+  color: white;
+}
+
+.included-tags-input .tag .close::after,
+.excluded-tags-input .tag .close::after {
+  content: '×';
+  font-weight: bold;
+  display: inline-block;
+  transform: scale(1.4);
+  margin-left: 0.75em;
+}
+
+.included-tags-input .tag .close:hover::after,
+.excluded-tags-input .tag .close:hover::after {
+  color: black;
+}
+
+.included-tags-input .main-input,
+.excluded-tags-input .main-input {
+  border: 0;
+  outline: 0;
+  padding: 0.7em;
+  width: 100%;
+  border: 1px solid #aaa;
+}
+
+.ingredients-list li {
+  display: block;
+  width: 100%;
+}
+
+#js-results {
+	margin-bottom: 2em;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+	grid-gap: 20px;
+	font-size: 1.0rem;
+}
+
+.js-result {
+	padding: 15px;
+	cursor: pointer;
+	background-color: #e8e8e8;
+	-webkit-transition: -webkit-transform 0.5s ease;
+	-moz-transition: -moz-transform 0.5s ease;
+	transition: transform 0.5s ease;
+}
+
+.js-result h3 {
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-transform: uppercase;
+}
+
+.js-result:hover {
+	-webkit-transform: scale(1.05);
+	-moz-transform: scale(1.05);
+	-o-transform: scale(1.05);
+	transform: scale(1.05);
+	-webkit-transform-origin: center;
+	-moz-transform-origin: center;
+	-o-transform-origin: center;
+	transform-origin: center;
+}
+
+.js-result p {
+	padding-bottom: 5px;
+}
+
+.js-result img {
+	width: 100%;
+	height: auto;
+	border-radius: .3em;
+}
+
+.rating span {
+	display: none;
+}
+
+.clock::before {
+	position: relative;
+	content:url('../images/clock-23px.svg');
+	top: 5px;
+	margin-left: 2px;
+	margin-right: 10px;
+}
+
+.yield::before {
+	position: relative;
+	content:url('../images/Stack_Personages.svg');
+	top: 2px;
+	margin-right: 8px;
+}
+
+.courses::before {
+	position: relative;
+	content:url('../images/dish-x26.svg');
+	top: 2px;
+	margin-right: 5px;
+}
+
+.ingredients-list {
+	list-style: disc inside;
+}
+
+img.star {
+  width: 7%;
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}

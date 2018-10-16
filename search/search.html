@@ -1,0 +1,40 @@
+<html lang="EN">
+<head>
+  <title>SEARCH FOR RECIPES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="chktkn.js"></script> 
+  <link rel="stylesheet" href="main.css">
+</head>  
+<body>
+  <header>
+      <h1 class="search-h1">Search recipes</h1>
+  </header>
+
+  <main>
+    <form action="" class="js-search-form search-form">
+      <fieldset>
+        <h2 class="js-courses-btn">Choose course</h2>
+        <div id="courses" class="js-courses"></div>
+
+        <h2 class="js-allergies-btn">Choose allergies</h2>
+        <div id="allergies" class="js-allergies"></div>
+
+        <h2 class="">Enter ingredients to include</h2>
+        <div class="included-tags-input" data-name="included-tags-input"></div>
+
+        <h2 class="">Enter ingredients to exclude</h2>
+        <div class="excluded-tags-input" data-name="excluded-tags-input"></div>
+
+        <input type="submit" value="SEARCH">
+      </fieldset>
+    </form>
+  </main>
+
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+  </script>     
+  <script src="app.js"></script>
+</body>
+</html>
