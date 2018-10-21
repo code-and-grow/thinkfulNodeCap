@@ -144,4 +144,33 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
+// Post to register a new user
+router.post('/lists', jsonParser, (req, res) => {
+  User
+  .findOne({
+    username: req.body.username
+  })
+  .then(user => {
+    user.lists.push({
+      listName : req.body.listName,
+      rating: req.body.rating,
+      yield: req.body.yield,
+      ingredients: req.body.ingredients
+    });
+    return user.save();
+  })
+  .then( (user) => {
+      return res.status(201).json({ message: 'List item added', user: user, list: user.list });
+    }
+  );
+});
+
+router.get('/profile', (req, res) => {
+  res.sendFile(__dirname + '/profile.html');
+});
+
+router.get('/lists', (req, res) => {
+  res.sendFile(__dirname + '/lists.html');
+});
+
 module.exports = {router};

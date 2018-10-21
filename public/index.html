@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="main.css">
 </head>  
 <body>
-  <header>
+  <header id="start-header">
     <h1>Sign in or sign up!</h1>
   </header>
   <main>
@@ -15,7 +15,7 @@
       <form action="" id="js-login-form" class="login-form">
         <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Email address" required>
         <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
-        <input type="submit" value="log in" id="js-login-submit" aria-label="Log in">
+        <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
       </form>
     </section>
 
@@ -28,7 +28,7 @@
         <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
         <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password" required>
         <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" required>
-        <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account">
+        <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
       </form>
     </section>
   </main>

@@ -2,10 +2,10 @@
 function handleLogin(data) {
   localStorage.setItem('token', data.authToken);
   window.location.replace('/search');
+  console.log(data);
 }
 // login page error reporting
 function handleError(error) {
-  console.log(error);
   const message401 = error.statusText;
   const response = error.responseJSON;
   
@@ -86,8 +86,68 @@ function createAccountSubmit() {
     }
   });
 }
-
-// checkbox lists predefined
+// log out
+function logOut() {
+  localStorage.removeItem('token');
+}
+// parse token to retrieve available user info
+const token = localStorage.getItem('token');
+let currentUser;
+let currentUserFname;
+let currentUserLname;
+function parseJwt(token) {
+  try {
+    // Get Token payload and date's
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const dataJWT = JSON.parse(window.atob(base64));
+    return dataJWT;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+const jwtDecoded = parseJwt(token);
+if (jwtDecoded) {
+  currentUser = jwtDecoded.user.username;
+  currentUserFname = jwtDecoded.user.firstName;
+  currentUserLname = jwtDecoded.user.lastName;
+}
+parseJwt(token);
+//
+function insertName(target, insert) {
+  target.innerHTML = insert;
+  return target;
+}
+// show current username in header
+function showCurrentUsername() {
+  const headerNameParent = document.getElementById('header-name');
+  const currentHeaderName = document.createElement('span');
+  if (window.location.pathname === '/search') {
+    headerNameParent.innerHTML = '<img src="images/user-icon.png" alt="" width="18" aria-hidden="true">';
+  } else {
+    headerNameParent.innerHTML = '<img src="../../images/user-icon.png" alt="" width="18" aria-hidden="true">';
+  }
+  if (currentUserLname | currentUserFname !== '') {
+    headerNameParent.appendChild(insertName(currentHeaderName, `${currentUserFname} ${currentUserLname}`));
+  } else {
+    headerNameParent.appendChild(insertName(currentHeaderName, currentUser));
+  }
+}
+showCurrentUsername();
+// profile page rendering
+function showProfile() {
+  const usernamePlaceholder = document.getElementById('js-current-username');
+  if (currentUserLname | currentUserFname !== '') {
+    insertName(usernamePlaceholder, `${currentUserFname} ${currentUserLname}`);
+  } else {
+    insertName(usernamePlaceholder, currentUser);
+  }
+  const main = document.getElementsByTagName('main');
+  const mainContent = ``;
+}
+// Yummly API integration 
+// starting with lists predefined
 const courseList = [
   {
     "id": "course-Main Dishes",
@@ -372,7 +432,7 @@ function getCheckedValues (targetClass, isAllergy) {
   lookForCheckedValues();
 }
 // get tags from inputs
-function tagsFromInputs(tags, input) {
+function tagsFromInput(tags, input) {
   [].forEach.call(document.getElementsByClassName(input), function (el) {
     let hiddenInput = document.createElement('input'),
         mainInput = document.createElement('input');
@@ -521,7 +581,6 @@ function renderResult(result) {
   let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours ") : "";
   let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes") : "";
   let cookingTime =  hDisplay + mDisplay; 
-  console.log(result, cookingTime);
   // Append recipe to DOM
   $('#js-results').append(`<a class="js-result clearfix" id="${result.id}">
                             <div>
@@ -560,13 +619,17 @@ function ingredientsList(ingredientArray) {
 
 // Display the results to user 
 function displayResults(data) {
-  $('.search-h1').empty().text('Search results');
-  $('main').empty().append(`<div id="js-results"></div>`);
+  $('main').empty().append(`<h1>Search results</h1>`)
+                   .append(`<div id="js-results"></div>`);
   // Do we have results?
   if (data.matches.length > 0) {
     // Loop through the results and render them 
     data.matches.map( (item, index) => renderResult(item) );
-    
+    $('main').append(`<div>
+                              <h4>
+                                <a href="/search">Start a new search</a>
+                              </h4>
+                            </div>`);
     // Add better resolution images from recipes array
     // setTimeout(function() {
     //   for (let i = 0; i < recipes.length; i++) {
@@ -577,11 +640,109 @@ function displayResults(data) {
     // }, 2200);
     // Open recipe in a lightbox after user click
     //showRecipeToUser();
+    showRecipeToUser();
   // No results from API
   } else {
-    console.log('Mathces count 0');
+    $('main').append(`<div class="back-link clearfix">
+                                <img class="card-image" src="" alt="Sad emoticon"  aria-hidden="true">
+                                <h3>No results found.</h3>
+                                <h4>
+                                  <a href="/search">Start a new search</a>
+                                </h4>
+                              </div>`);
   }
 }
+
+// Display the recipe user selects 
+function showRecipeToUser() {
+  $('.js-result').on('click', function(event) {
+    event.preventDefault();
+    // Store the clicked recipe data
+    const recipeClicked = recipes.find(recipe => recipe.recipeData.id === this.id);
+    const recipeDetails = {
+      name: recipeClicked.recipeData.name,
+      image: recipeClicked.recipeData.images[0].hostedLargeUrl,
+      course: recipeClicked.recipeData.attributes.course,
+      rating: recipeClicked.recipeData.rating,
+      servings: recipeClicked.recipeData.yield,
+      totalTime: recipeClicked.recipeData.totalTime,
+      ingredients: recipeClicked.recipeData.ingredientLines,
+      sourceName: recipeClicked.recipeData.source.sourceDisplayName,
+      sourceUrl: recipeClicked.recipeData.source.sourceRecipeUrl,
+      yummlyLogo: recipeClicked.recipeData.attribution.logo,
+      yummlyUrl: recipeClicked.recipeData.attribution.url
+    }
+    // Does the result have courses defined?
+    function checkCourse() {
+      if (recipeDetails.course) {
+        recipeDetailsData = recipeDetails.course.join(', ');
+        return recipeDetailsData;
+      } else {
+        return '-';
+      }
+    }
+    // Does the result have yield defined?
+    function checkYield() {
+      if (recipeDetails.servings) {
+        return recipeDetails.servings;
+      } else {
+        return '-';
+      }
+    }
+    // Lightbox recipe details html
+    const contentHtml = `<p id="closeLightbox">X</p>
+                          <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
+                          <h2>${recipeDetails.name}</h2>
+                          <p class="rating">${starRating(recipeDetails.rating)}<span>${recipeDetails.rating} star rating</span></p>
+                          <p class="clock">${recipeDetails.totalTime}</p>
+                          <p class="courses"> ${checkCourse()}</p>
+                          <p class="yield">${checkYield()}</p>
+                          <p class="ingredients">Ingredients:</p>
+                          <ul>
+                            ${ingredientsList(recipeDetails.ingredients)}
+                          </ul>
+                          <p class="source">
+                            For detailed instructions visit 
+                            <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed instructions visit ${recipeDetails.sourceName}.">
+                              ${recipeDetails.sourceName}
+                            </a>.
+                          </p>
+                          <p>
+                          <div class="yummly-ref">
+                            <a href="${recipeDetails.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
+                            <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
+                            <br>POWERED RECIPE
+                            </a>
+                          </div>
+                          <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
+                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${recipeDetails.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                              <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
+                            </a>
+                          </div>
+                        </p>`;
+    // If lightbox exists
+    if ($('#lightbox').length > 0) { 
+      $('#lightbox-content').html(contentHtml);
+      // Show lightbox window 
+      $('#lightbox').show();
+      // If lightbox does not exist
+    } else { 
+      //create HTML markup for lightbox window
+      const lightbox = 
+      `<div id="lightbox">
+        <div id="lightbox-content">${contentHtml}</div>	
+      </div>`;
+      //insert lightbox HTML into page
+      $('body').append(lightbox);
+    }
+    // Click anywhere on the page to get rid of lightbox window
+    $('#closeLightbox').on('click', function() {
+      $('#lightbox').hide();
+    });
+  });
+}
+
+
 // search form submit event listener
 function searchSubmit() {
   $('.js-search-form').on('submit', function(event) {
@@ -590,24 +751,24 @@ function searchSubmit() {
     getCheckedValues('.allergy', true);
     allowedIng = allowedIng.map( item => item.text.replace(' ', '+'));
     excludedIng = excludedIng.map( item => item.text.replace(' ', '+'));
-    console.log(courseVal, allergyVal, allowedIng, excludedIng);
     searchAPI(courseVal, allergyVal, allowedIng, excludedIng);
   });
 }
 
 function initClient() {
   // event listeners
-  loginSubmit();
-  createAccountSubmit();
+  tagsFromInput(allowedIng, 'included-tags-input');
+  tagsFromInput(excludedIng, 'excluded-tags-input');
   searchSubmit();
-  tagsFromInputs(allowedIng, 'included-tags-input');
-  tagsFromInputs(excludedIng, 'excluded-tags-input');
+  // global
+  $("#nav-placeholder").load("../../nav.html");
   // page specific
   if(window.location.pathname === '/search') {
+    $("#nav-placeholder").load("nav.html");
     $('.js-courses').html(`${renderChkboxInputs(courseList)}`);
     $('.js-allergies').html(`${renderChkboxInputs(allergyList)}`);
-    // renderTxtInputs('include-tags-input', 'included');
-    // renderTxtInputs('exclude-tags-input', 'excluded');
+  } else if (window.location.pathname === '/api/users/profile') {
+    showProfile();
   }
 }
 
