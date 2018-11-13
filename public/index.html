@@ -1,37 +1,14 @@
 <html lang="EN">
 <head>
-  <title>Sign in or sign up!</title>
+  <title></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="main.css">
 </head>  
 <body>
-  <header id="start-header">
-    <h1>Sign in or sign up!</h1>
-  </header>
-  <main>
-    <section>
-      <h2>Sign in</h2>
-      <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
-      <form action="" id="js-login-form" class="login-form">
-        <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Email address" required>
-        <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
-        <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
-      </form>
-    </section>
-
-    <section>
-      <h2>Create new account</h2>
-      <span class="js-create-account-err err-message" aria-hidden="true" aria-live="assertive"></span>
-      <form action="" id="js-create-account-form" class="create-account-form">
-        <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
-        <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
-        <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
-        <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password" required>
-        <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" required>
-        <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
-      </form>
-    </section>
-  </main>
+  <div id="header-container">
+    <header></header>
+  </div>
+  <main id="main"></main>
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

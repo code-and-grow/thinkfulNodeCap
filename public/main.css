@@ -6,6 +6,9 @@ body {
 
 header {
   width: 100%;
+}
+
+#top-bar {
   padding-top: 8px;
   border-bottom: 2px solid #444;
 }
@@ -42,11 +45,11 @@ nav ul {
   float: right;
 }
 
-nav ul li {
+nav ul a li {
   float: left;
 }
 
-nav ul li a {
+nav ul a li {
   display: block;
   color: black;
   text-transform: uppercase;
@@ -58,14 +61,17 @@ nav ul li a {
 }
 
 /* Change the link color to #111 (black) on hover */
-nav ul li a:hover {
+nav ul a li:hover {
   background-color: #111;
   color: white;
+  cursor: pointer;
 }
 
 h1 {
   margin-top: 50px;
   margin-bottom: 50px;
+  width: 100%;
+  text-align: center;
 }
 
 h2 {
@@ -84,6 +90,22 @@ fieldset {
   margin: 0;
   padding: 0;
   border: none;
+}
+
+.saved-lists-item {
+	text-align: left;
+	padding: 0 20px 13px;
+	margin: 1% 4%;
+	border: 1px grey dotted;
+}
+
+.list-item-h3 {
+  text-align: left;
+}
+
+.saved-lists-item a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .search-form,
@@ -106,6 +128,7 @@ fieldset {
 
 .search-form {
   width: 92%;
+  border: 1px grey dotted;
 }
 
 .search-form h2 {
@@ -236,7 +259,7 @@ input[type=checkbox] {
 .js-result {
 	padding: 15px;
 	cursor: pointer;
-  background-color: #eeeeee;
+  border: 1px dotted grey;
 	-webkit-transition: -webkit-transform 0.5s ease;
 	-moz-transition: -moz-transform 0.5s ease;
 	transition: transform 0.5s ease;
@@ -254,10 +277,10 @@ input[type=checkbox] {
 }
 
 .js-result:hover {
-	-webkit-transform: scale(1.05);
-	-moz-transform: scale(1.05);
-	-o-transform: scale(1.05);
-	transform: scale(1.05);
+	-webkit-transform: scale(1.04);
+	-moz-transform: scale(1.04);
+	-o-transform: scale(1.04);
+	transform: scale(1.04);
 	-webkit-transform-origin: center;
 	-moz-transform-origin: center;
 	-o-transform-origin: center;

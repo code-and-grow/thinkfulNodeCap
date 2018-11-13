@@ -7,19 +7,24 @@ mongoose.Promise = global.Promise;
 const commentSchema = mongoose.Schema({ content: 'string' });
 
 const ListSchema = mongoose.Schema({ 
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   title: 'string',
+  rating: Number,
+  yield: Number,
   ingredients: [],
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   comments: [commentSchema]
 });
 
 ListSchema.methods.serialize = function() {
   return {
+    user_id: this.user_id,
     title: this.title,
+    rating: this.rating,
+    yield: this.yield,
     ingredients: this.ingredients,
     comments: this.comments
-  }
-}
+  };
+};
 
 const UserSchema = mongoose.Schema({
   username: {
@@ -41,7 +46,8 @@ UserSchema.methods.serialize = function() {
   return {
     username: this.username || '',
     firstName: this.firstName || '',
-    lastName: this.lastName || ''
+    lastName: this.lastName || '',
+    user_id: this._id
   };
 };
 

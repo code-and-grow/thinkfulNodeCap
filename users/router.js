@@ -1,12 +1,20 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
-const {User} = require('./models');
+const {User, List} = require('./models');
 
 const router = express.Router();
 
 const jsonParser = bodyParser.json();
+const { router: authRouter, localStrategy, jwtStrategy } = require('../auth');
+
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
@@ -145,14 +153,12 @@ router.get('/', (req, res) => {
 });
 
 // Post to register a new user
-router.post('/lists', jsonParser, (req, res) => {
+router.post('/lists', jsonParser, jwtAuth, (req, res) => {
   User
-  .findOne({
-    username: req.body.username
-  })
+  .findOne({ user_id: req.user._id })
   .then(user => {
     user.lists.push({
-      listName : req.body.listName,
+      title : req.body.title,
       rating: req.body.rating,
       yield: req.body.yield,
       ingredients: req.body.ingredients
@@ -165,12 +171,50 @@ router.post('/lists', jsonParser, (req, res) => {
   );
 });
 
-router.get('/profile', (req, res) => {
-  res.sendFile(__dirname + '/profile.html');
+router.get('/search', jwtAuth, (req, res) => {
+  res.status(200).json({
+    titleContent: 'Search for recipes',
+    firstName: req.user.firstName
+    });
 });
 
-router.get('/lists', (req, res) => {
-  res.sendFile(__dirname + '/lists.html');
+router.get('/profile', jwtAuth, (req, res) => {
+  User
+    .findOne({ user_id: req.user._id})
+    .then( user => {
+      res.status(200).json({
+        titleContent: 'My profile',
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.username,
+        listsCount: user.lists.length
+      });
+    })
+    .catch( err => console.log(err));
+});
+
+router.get('/lists', jwtAuth, (req, res) => {
+  User
+    .findOne({ user_id: req.user._id})
+    .then( user => {
+      res.status(200).json({
+        titleContent: 'My saved shopping lists',
+        firstName: user.firstName,
+        lists: user.lists
+      });
+    })
+    .catch( err => console.log(err));
+});
+
+router.get('/list/', jwtAuth, (req, res) => {
+
+  User
+    .findOne({ user_id: req.user._id })
+    .then( user => {
+      const id = req.query.id;
+      console.log(id);
+    })
+   .catch(error => res.json({ error: error}));
 });
 
 module.exports = {router};
