@@ -260,31 +260,34 @@ function handleError(error) {
                                .attr('aria-hidden', 'false');
   }
 }
+function loginCall(username, password) {
+  $.ajax({
+    url: '/api/auth/login',
+    method: 'POST',
+    data: JSON.stringify({ 
+      username: username,
+      password: password
+    }),
+    contentType: 'application/json',
+    dataType: 'json',
+    success: handleLogin,
+    error: handleError
+  });
+}
 // log in user
 function loginSubmit() {
   const loginForm = $('#js-login-form');
   // submit credentials
   $(loginForm).submit(function(event) {
+    event.preventDefault();
     $('.js-login-err').empty()
                       .attr('aria-hidden', 'true');
     $('.js-create-account-err').empty()
                                .attr('aria-hidden', 'true');
     const username = $('#js-username').val();
     const password = $('#js-user-pw').val();
-    event.preventDefault();
     // send user credentials
-    $.ajax({
-      url: '/api/auth/login',
-      method: 'POST',
-      data: JSON.stringify({ 
-        username: username,
-        password: password
-      }),
-      contentType: 'application/json',
-      dataType: 'json',
-      success: handleLogin,
-      error: handleError
-    });
+    loginCall(username, password);
   });
 }
 // create new user
@@ -292,6 +295,7 @@ function createAccountSubmit() {
   const createAccountForm = $('#js-create-account-form');
   // submit new user credentials
   $(createAccountForm).submit(function(event) {
+    event.preventDefault();
     $('.js-login-err').empty()
                       .attr('aria-hidden', 'true');
     $('.js-create-account-err').empty()
@@ -301,7 +305,6 @@ function createAccountSubmit() {
     const lastName = $('#js-lastname').val();
     const password = $('#js-new-pw').val();
     const confirmedPassword = $('#js-confirm-pw').val();
-    event.preventDefault();
     // if password fields match
     if (password === confirmedPassword) {
       // save new user data to db
@@ -316,8 +319,10 @@ function createAccountSubmit() {
         }),
         contentType: 'application/json',
         dataType: 'json',
-        success: handleLogin,
-        error: handleError
+        success: function(response) {
+          loginCall(email, password);
+        },
+        error: (error) => console.log(error)
       });
     // otherwise alert user that passwords don't match
     } else {
@@ -348,66 +353,29 @@ const showListsHtml = function(response) {
                                           <span>Comments: ${list.comments.length} </span>
                                           <a><span>Share </span></a>
                                           <a><span>Delete</span></a>
-                                        </div>`);
+                                        </div>`).join('');
 };
 
+const showListHtml = function(item) {
+  return  `<div class="" id="${item._id}">
+            <div style="text-align:center;">
+              <span>Yummly rating: ${item.rating} </span>
+              <span>Comments: ${item.comments} </span>
+              <a><span>Share </span></a>
+              <a><span>Delete</span></a>
+            </div>
+            <div style="text-align:center;padding:10px;">
+              <img src="${item.image}" alt="${item.title}">
+            </div>
+            <ul>${item.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ul>
+          </div>`;
+  };
 const showProfileHtml = `Ī'm waiting for content...`;
 // save user page history and set hash
 let savedHashes = [];
 function updateHistory(currHash) {
-  savedHashes.push(window.location.hash);
+  savedHashes.push(window.location.hash.split(1));
   window.location.hash = currHash;
-}
-
-function renderPageFromHash() {
-  localStorage.setItem('hash', window.location.hash.slice(1));
-  switch (localStorage.hash) {
-    case 'search':
-      showSearch();
-      break;
-    case 'profile':
-      showProfile();
-      break;
-    case 'lists':
-      showLists();
-      break;
-  }
-}
-// render page when user clicks page links or back button
-window.onhashchange = function() {
-  if(localStorage.token) {
-    renderPageFromHash();
-  } else {
-    logOut();
-  }
-}
-// render page when user clicks refresh button
-window.onload = function(e) {
-
-    $.ajax({
-      url: '/api/users/' + localStorage.hash,
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.token}`
-      },
-      contentType: 'application/json',
-      dataType: 'json',
-      success: function() {
-        switch (localStorage.hash) {
-          case 'search':
-            showSearch();
-            break;
-          case 'profile':
-            showProfile();
-            break;
-          case 'lists':
-            showLists();
-            break;
-        }
-      },
-      error: handleError
-    });
-
 }
 // render page function
 function renderPage(response, html, hashStr) {
@@ -488,32 +456,42 @@ function showLists() {
     },
     contentType: 'application/json',
     dataType: 'json',
+    data: {},
     success: function(response) {
       //console.log(response.lists);
       renderPage(response, showListsHtml(response.lists), 'lists');
-      showListItem();
+      showList();
     },
     error: function(error) { console.log(error) }
   });
 }
 
-function showListItem() { 
+function showList() { 
   const listItem = $('#main').find('.saved-lists-item');
   listItem.on('click', function(e){
-    const itemId = $(e.currentTarget).attr('id');
+    let itemId = $(e.currentTarget).attr('id');
     $.ajax({
-      url: '/api/users/list/',
+      url: '/api/users/lists/',
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`
       },
-      data: { 
-        id: `${itemId}`
-      },
+      data: {},
       contentType: 'application/json',
       success: (response) => {
-        renderPage(response, showListHtml(response.lists), 'lists');
-        console.log('Success');
+        //console.log(response.lists);
+        let listItem = response.lists.filter( function(list) {
+            return list._id === itemId;
+          });
+        //console.log(listItem[0]);
+        renderPage(response, showListHtml(listItem[0]), listItem[0]._id);
+        $('title')
+          .empty()
+          .append(listItem[0].title);
+        $('header h1')
+          .empty()
+          .append(listItem[0].title);
+        listItem = undefined;
       },
       error: (error) => console.log(error)
     });
@@ -525,6 +503,64 @@ function logOut() {
   localStorage.removeItem('token');
   localStorage.removeItem('hash');
   window.location.replace('/');
+}
+// render page when user clicks refresh button
+window.onload = function(e) {
+  localStorage.setItem('hash', window.location.hash.slice(1));
+  $.ajax({
+    url: '/api/users/' + localStorage.hash,
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.token}`
+    },
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function() {
+      switch (localStorage.hash) {
+        case 'search':
+          showSearch();
+          break;
+        case 'profile':
+          showProfile();
+          break;
+        case 'lists':
+          showLists();
+          break;
+        // case '':
+        //   showProfile();
+        //   break;
+        // case localStorage.hash:
+        //   showList();
+        //   break;
+      }
+    },
+    error: handleError
+  });
+}
+function renderPageFromHash() {
+  localStorage.setItem('hash', window.location.hash.slice(1));
+  switch (localStorage.hash) {
+    case 'search':
+      showSearch();
+      break;
+    case 'profile':
+      showProfile();
+      break;
+    case 'lists':
+      showLists();
+      break;
+    case localStorage.hash:
+      showList();
+      break;
+  }
+}
+// render page when user clicks page links or back button
+window.onhashchange = function() {
+  if(localStorage.token) {
+    renderPageFromHash();
+  } else {
+    logOut();
+  }
 }
 // Yummly API integration 
 
@@ -855,6 +891,7 @@ function showRecipeToUser() {
             ingredients: recipeDetails.ingredients,
             rating: recipeDetails.rating,
             yield: recipeDetails.yield,
+            image: recipeDetails.image,
             comments: []
           }),
           contentType: 'application/json',

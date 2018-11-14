@@ -11,6 +11,7 @@ const ListSchema = mongoose.Schema({
   title: 'string',
   rating: Number,
   yield: Number,
+  image: 'string',
   ingredients: [],
   comments: [commentSchema]
 });
@@ -21,6 +22,7 @@ ListSchema.methods.serialize = function() {
     title: this.title,
     rating: this.rating,
     yield: this.yield,
+    image: this.image,
     ingredients: this.ingredients,
     comments: this.comments
   };

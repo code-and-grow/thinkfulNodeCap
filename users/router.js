@@ -146,11 +146,11 @@ router.post('/', jsonParser, (req, res) => {
 // we're just doing this so we have a quick way to see
 // if we're creating users. keep in mind, you can also
 // verify this in the Mongo shell.
-router.get('/', (req, res) => {
-  return User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
-});
+// router.get('/', (req, res) => {
+//   return User.find()
+//     .then(users => res.json(users.map(user => user.serialize())))
+//     .catch(err => res.status(500).json({message: 'Internal server error'}));
+// });
 
 // Post to register a new user
 router.post('/lists', jsonParser, jwtAuth, (req, res) => {
@@ -161,6 +161,7 @@ router.post('/lists', jsonParser, jwtAuth, (req, res) => {
       title : req.body.title,
       rating: req.body.rating,
       yield: req.body.yield,
+      image: req.body.image,
       ingredients: req.body.ingredients
     });
     return user.save();
@@ -172,10 +173,15 @@ router.post('/lists', jsonParser, jwtAuth, (req, res) => {
 });
 
 router.get('/search', jwtAuth, (req, res) => {
-  res.status(200).json({
-    titleContent: 'Search for recipes',
-    firstName: req.user.firstName
-    });
+  User
+  .findOne({ user_id: req.user._id})
+  .then( user => {
+    res.status(200).json({
+      titleContent: 'Search for recipes',
+      firstName: user.firstName
+      });
+  })
+  .catch( err => console.log(err));
 });
 
 router.get('/profile', jwtAuth, (req, res) => {
@@ -200,21 +206,11 @@ router.get('/lists', jwtAuth, (req, res) => {
       res.status(200).json({
         titleContent: 'My saved shopping lists',
         firstName: user.firstName,
+        user_id: user._id,
         lists: user.lists
       });
     })
     .catch( err => console.log(err));
-});
-
-router.get('/list/', jwtAuth, (req, res) => {
-
-  User
-    .findOne({ user_id: req.user._id })
-    .then( user => {
-      const id = req.query.id;
-      console.log(id);
-    })
-   .catch(error => res.json({ error: error}));
 });
 
 module.exports = {router};

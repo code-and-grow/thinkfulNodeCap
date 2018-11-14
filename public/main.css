@@ -99,6 +99,10 @@ fieldset {
 	border: 1px grey dotted;
 }
 
+.saved-lists-item:hover { 
+  cursor: pointer;
+}
+
 .list-item-h3 {
   text-align: left;
 }

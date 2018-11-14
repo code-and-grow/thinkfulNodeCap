@@ -35,6 +35,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+/* STATIC */
+app.use(express.static('public'));
+
 /* PASSPORT STRATEGIES */
 passport.use(localStrategy);
 passport.use(jwtStrategy);
@@ -51,10 +54,6 @@ app.get('/api/protected', jwtAuth, (req, res) => {
     data: 'rosebud'
   });
 });
-
-/* STATIC */
-app.use(express.static('public'));
-
 
 /* RE-DIRECTING NOT DEFINED ROUTES */
 app.use('*', (req, res) => {
