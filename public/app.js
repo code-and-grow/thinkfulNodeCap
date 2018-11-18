@@ -238,6 +238,20 @@ let allergyVal = [];
 let allowedIng = [];
 let excludedIng = [];
 let recipes = [];
+
+function getAjax(urlStr, scsFnc) {
+  $.ajax({
+    url: urlStr,
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.token}`
+    },
+    contentType: 'application/json',
+    dataType: 'json',
+    success: scsFnc,
+    error: function(error) { return error }
+  });
+}
 // save token and redirect on successful login
 function handleLogin(data) {
   localStorage.setItem('token', data.authToken);
@@ -331,7 +345,59 @@ function createAccountSubmit() {
     }
   });
 }
-
+// delete user
+function deleteAccount() {
+  $('#js-delete-account').on('click', (e) => {
+    $.ajax({
+      url: '/api/users/delete',
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      contentType: 'application/json',
+      success: () => {
+        logOut();
+      },
+      error: (error) => console.log(error)
+    });
+  })
+}
+// save user page history and set hash
+let savedHashes = [];
+function updateHistory(currHash) {
+  savedHashes.push(window.location.hash.split(1));
+  window.location.hash = currHash;
+}
+// render page function
+function renderPage(response, html, hashStr) {
+  updateHistory(hashStr);
+  $('title')
+    .empty()
+    .append(response.title);
+  $('header')
+    .empty()
+    .append(`<div id="top-bar">
+              <span id="header-name">
+                <a href="#profile">
+                  <img src="images/user-icon.png" alt="" width="18" aria-hidden="true">
+                  Hi, ${response.firstName}!
+                </a>
+              </span>
+              <nav>
+                <ul class="top-nav">
+                  <a href="#search"><li>Search</li></a>
+                  <a href="#lists"><li>Saved lists</li></a>
+                  <a href="#profile"><li>User profile</li></a>
+                  <a onclick='logOut()'><li>Log out</li></a>
+                </ul>
+              </nav>
+            </div>
+            <h1>${response.title}</h1>`);
+  $('#main')
+    .empty()
+    .append(html);
+}
+// render search html
 const searchFormHtml = `<form action="" class="js-search-form search-form">
                           <fieldset>
                             <h2 class="js-courses-btn">Choose course</h2>
@@ -345,65 +411,6 @@ const searchFormHtml = `<form action="" class="js-search-form search-form">
                             <input type="submit" value="SEARCH">
                           </fieldset>
                         </form>`;
-
-const showListsHtml = function(response) {
-  return response.map( (list, index) => `<div class="saved-lists-item" id="${list._id}">
-                                          <h3 class="list-item-h3">${index + 1}. ${list.title}</h3>
-                                          <span>Yummly rating: ${list.rating} </span>
-                                          <span>Comments: ${list.comments.length} </span>
-                                          <a><span>Share </span></a>
-                                          <a><span>Delete</span></a>
-                                        </div>`).join('');
-};
-
-const showListHtml = function(item) {
-  return  `<div class="" id="${item._id}">
-            <div style="text-align:center;">
-              <span>Yummly rating: ${item.rating} </span>
-              <span>Comments: ${item.comments} </span>
-              <a><span>Share </span></a>
-              <a><span>Delete</span></a>
-            </div>
-            <div style="text-align:center;padding:10px;">
-              <img src="${item.image}" alt="${item.title}">
-            </div>
-            <ul>${item.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ul>
-          </div>`;
-  };
-const showProfileHtml = `Ī'm waiting for content...`;
-// save user page history and set hash
-let savedHashes = [];
-function updateHistory(currHash) {
-  savedHashes.push(window.location.hash.split(1));
-  window.location.hash = currHash;
-}
-// render page function
-function renderPage(response, html, hashStr) {
-  updateHistory(hashStr);
-  $('title')
-    .empty()
-    .append(response.titleContent);
-  $('header')
-    .empty()
-    .append(`<div id="top-bar">
-              <span id="header-name">
-                <img src="images/user-icon.png" alt="" width="18" aria-hidden="true">
-                Hola, ${response.firstName}!
-              </span>
-              <nav>
-                <ul class="top-nav">
-                  <a href="#search"><li>Search</li></a>
-                  <a href="#lists"><li>Saved lists</li></a>
-                  <a href="#profile"><li>User profile</li></a>
-                  <a onclick='logOut()'><li>Log out</li></a>
-                </ul>
-              </nav>
-            </div>
-            <h1>${response.titleContent}</h1>`);
-  $('#main')
-    .empty()
-    .append(html);
-}
 // show search page
 function showSearch() {
   $.ajax({
@@ -430,7 +437,20 @@ function showSearch() {
     error: function(error) { console.log(error) }
   });
 }
-// profile page rendering
+// render profile page html
+const showProfileHtml = function(data) {
+  return  `<div class="profile" id="${data._id}">
+            <h4>Registered username: ${data.email}</h4>
+            <p>First name: <b>${data.firstName}</b><br>Last name: <b>${data.lastName}</b></p>
+            <p>Saved shopping lists: <b>${data.listsCount}</b></p>
+            <p style="text-align: center;">
+              <a href="#lists"><button>Go to saved lists</button></a>
+              <a href="#search"><button>Start a new Search</button></a>
+              <a><button id="js-delete-account">Delete account</button></a>
+            </p>
+          </div>`;
+  };
+// show profile to user
 function showProfile() {
   $.ajax({
     url: '/api/users/profile/',
@@ -441,12 +461,49 @@ function showProfile() {
     contentType: 'application/json',
     dataType: 'json',
     success: function(response) {
-      renderPage(response, showProfileHtml, 'profile');
+      renderPage(response, showProfileHtml(response), 'profile');
+      deleteAccount();
     },
     error: function(error) { console.log(error) }
   });
 }
-
+// render lists html
+const showListsHtml = function(data) {
+  return '<section id="saved-lists">' + 
+    data.map( (list, index) => `<div class="saved-lists-item" id="${list._id}"  style="text-align: center;">
+      <h3 class="list-item-h3"><a  class="js-show-list">${index + 1}. ${list.title}</a></h3>
+      <span>Yummly rating: ${list.rating} </span>
+      <span>Comments: ${list.comments.length} </span>
+      <div style="text-align: center;">
+        <button class="js-show-list">View</button>
+        <button id="${list._id}" class="js-delete-list">Delete</button>
+      </div>
+    </div>`).join('') + 
+    '</section>';
+};
+function deleteList() {
+  $('.js-delete-list').on('click', function(e) {
+    const list_id = $(e.currentTarget).attr('id');
+    $.ajax({
+      url: '/api/users/lists/delete',
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      data: JSON.stringify({
+        list_id: list_id
+      }),
+      contentType: 'application/json',
+      success: (response) => {
+        renderPage(response, showListsHtml(response.lists), 'lists');
+        deleteList();
+        showList();
+      },
+      error: (error) => console.log(error)
+    });
+  });
+}
+// show lists to user
 function showLists() {
   $.ajax({
     url: '/api/users/lists/',
@@ -458,43 +515,177 @@ function showLists() {
     dataType: 'json',
     data: {},
     success: function(response) {
-      //console.log(response.lists);
+      //console.log(response);
       renderPage(response, showListsHtml(response.lists), 'lists');
+      deleteList();
       showList();
     },
     error: function(error) { console.log(error) }
   });
 }
-
-function showList() { 
-  const listItem = $('#main').find('.saved-lists-item');
-  listItem.on('click', function(e){
-    let itemId = $(e.currentTarget).attr('id');
+// render list item html
+const showListHtml = function(data) {
+  const list = data.list;
+  return  `<div class="result" id="${list._id}">
+            <div id="result-top">
+              <img src="${list.image}" alt="Image of ${list.title}">
+              <span>Yummly rating: ${list.rating} / 5</span>
+            </div>
+            <div id="result-texts">
+              <div id="ingredients">
+                <h2>Ingredients:</h2>
+                <ol>${list.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ol>
+              </div>
+              <div id="comments">
+                <h2>Comments: ${list.comments.length} </h2>
+                <ol>
+                  ${list.comments.map( comment => {
+                    return '<li id="' + 
+                      comment._id + '">' + 
+                      comment.content + 
+                      '<button class="js-delete-comment">Delete comment</button></li>'})
+                  .join('')}
+                </ol>
+                <form>
+                  <label for="comment">
+                    <input type"textarea" rows="4" cols="50" name="comment" id="js-comment-field" data-id="${list._id}" placeholder"Type your comment here...">
+                  </label>
+                </form>
+                <button class="js-add-comment">Add comment</button>
+              </div>
+            </div>
+            <div id="result-buttons">
+              <a><button><span>Share </span></button></a>
+              <a><button id="${list._id}" class="js-delete-list"><span>Delete</span></button></a>
+            </div>
+          </div>`;
+  };
+// add comment to list item
+function addComm() {
+  $('.js-add-comment').on('click', function(e) {
+    const commentField = $('#js-comment-field').val();
+    const list_id = $('main > div').attr('id');
+    const listTitle = $('header h1').text();
+    if (!commentField) {
+      return false;
+    } else {
+      $.ajax({
+        url: '/api/users/comments/add',
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`
+        },
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          title: listTitle,
+          content: commentField,
+          list_id: list_id
+        }),
+        success: function(response) {
+          renderPage(response, showListHtml(response), response.list._id);
+          $('title')
+            .empty()
+            .append(response.list.title);
+          $('header h1')
+            .empty()
+            .append(response.list.title);
+          addComm();
+          deleteComm();
+          deleteList();
+        },
+        error: function(error) { console.log(error) }
+      });
+      return false;
+    }
+  });
+}
+function deleteComm() {
+  $('.js-delete-comment').on('click', function(e) {
+    const listId = $('main > div').attr('id');
+    const commentId = $(e.currentTarget).closest('li').attr('id');
+    const listTitle = $('header h1').text();
     $.ajax({
-      url: '/api/users/lists/',
+      url: '/api/users/comments/delete',
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      data: JSON.stringify({
+        title: listTitle,
+        list_id: listId,
+        comment_id: commentId
+      }),
+      contentType: 'application/json',
+      success: (response) => {
+        renderPage(response, showListHtml(response), response.list._id);
+        $('title')
+          .empty()
+          .append(response.list.title);
+        $('header h1')
+          .empty()
+          .append(response.list.title);
+        addComm();
+        deleteComm();
+        deleteList();
+      },
+      error: (error) => console.log(error)
+    });
+  });
+}
+function showList() { 
+  const listItemBtn = $('#main').find('.js-show-list');
+  listItemBtn.on('click', function(e){
+    let itemId = $(e.currentTarget).closest('.saved-lists-item').attr('id');
+    $.ajax({
+      url: '/api/users/list/',
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`
       },
-      data: {},
+      data: {
+        list_id: itemId
+      },
       contentType: 'application/json',
       success: (response) => {
-        //console.log(response.lists);
-        let listItem = response.lists.filter( function(list) {
-            return list._id === itemId;
-          });
-        //console.log(listItem[0]);
-        renderPage(response, showListHtml(listItem[0]), listItem[0]._id);
+        renderPage(response, showListHtml(response), response.list._id);
         $('title')
           .empty()
-          .append(listItem[0].title);
+          .append(response.list.title);
         $('header h1')
           .empty()
-          .append(listItem[0].title);
-        listItem = undefined;
+          .append(response.list.title);
+        addComm();
+        deleteComm();
+        deleteList();
       },
       error: (error) => console.log(error)
     });
+  });
+}
+function refreshItem() {
+  const listItemId = localStorage.hash;
+  $.ajax({
+    url: '/api/users/list/',
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.token}`
+    },
+    data: {
+      item_id: localStorage.hash
+    },
+    contentType: 'application/json',
+    success: (response) => {
+      // renderPage(response, showListHtml(response), response.userList[0]._id);
+      // $('title')
+      //   .empty()
+      //   .append(response.userList[0].title);
+      // $('header h1')
+      //   .empty()
+      //   .append(response.userList[0].title);
+      // addComm();
+    },
+    error: (error) => console.log(error)
   });
 }
 // log out
@@ -526,11 +717,14 @@ window.onload = function(e) {
         case 'lists':
           showLists();
           break;
+        case localStorage.hash:
+          showList();
+          break;
         // case '':
         //   showProfile();
         //   break;
         // case localStorage.hash:
-        //   showList();
+        //   refreshItem();
         //   break;
       }
     },
@@ -881,7 +1075,7 @@ function showRecipeToUser() {
       const saveListBtn = $('#lightbox-content').find('#js-save-list');
       saveListBtn.on('click', function(e){
         $.ajax({
-          url: '/api/users/lists',
+          url: '/api/users/lists/add',
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${localStorage.token}`,
@@ -891,12 +1085,11 @@ function showRecipeToUser() {
             ingredients: recipeDetails.ingredients,
             rating: recipeDetails.rating,
             yield: recipeDetails.yield,
-            image: recipeDetails.image,
-            comments: []
+            image: recipeDetails.image
           }),
           contentType: 'application/json',
           dataType: 'json',
-          success: () => console.log('List added'),
+          success: () => alert('List item added'),
           error: (error) => console.log(error)
         });
       });
@@ -977,27 +1170,29 @@ function initClient() {
   if(!localStorage.token) {
     $('title').append('Sign in or sign up!');
     $('#header-container header').append('<h1>Sign in or sign up!</h1>');
-    $('#main').append(`<section>
-                        <h2>Sign in</h2>
-                        <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
-                        <form action="" id="js-login-form" class="login-form">
-                          <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Email address" required>
-                          <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
-                          <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
-                        </form>
-                      </section>
-                      <section>
-                        <h2>Create new account</h2>
-                        <span class="js-create-account-err err-message" aria-hidden="true" aria-live="assertive"></span>
-                        <form action="" id="js-create-account-form" class="create-account-form">
-                          <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
-                          <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
-                          <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
-                          <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password" required>
-                          <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" required>
-                          <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
-                        </form>
-                      </section>`);
+    $('#main').append(`<div id="start-page">
+                        <div>
+                          <h2>Sign in</h2>
+                          <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
+                          <form action="" id="js-login-form" class="login-form">
+                            <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Email address" required>
+                            <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
+                            <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
+                          </form>
+                        </div>
+                        <div>
+                          <h2>Create account</h2>
+                          <span class="js-create-account-err err-message" aria-hidden="true" aria-live="assertive"></span>
+                          <form action="" id="js-create-account-form" class="create-account-form">
+                            <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
+                            <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
+                            <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
+                            <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password (min 10 characters)" required>
+                            <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" required>
+                            <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
+                          </form>
+                        </div>
+                      </div>`);
   }
 }
 
