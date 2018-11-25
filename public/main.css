@@ -29,12 +29,12 @@ footer {
   bottom: 0;
   font-size: 0.6rem;
   color: #888;
-  background: #ccc;
+  background: #fff;
   text-align: center;
 }
 footer p {
   margin: 0;
-  padding-top: 5px;
+  padding: 10px;
 }
 nav {
   height: 31px;
@@ -251,9 +251,12 @@ input#js-comment-field {
 .search-form input,
 .login-form input,
 .create-account-form input {
+  border: 0;
+  border: 1px solid #aaa;
   display: block;
   margin: 8px auto;
-  padding: 2%;
+  outline: 0;
+  padding: 0.7em;
   font-size: 0.9rem;
 }
 .login-form input,
@@ -602,7 +605,7 @@ img#yummly-logo {
   display: table;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 900px) {
   body {
     width: 70%;
   }

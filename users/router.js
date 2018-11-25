@@ -141,18 +141,68 @@ router.post('/', jsonParser, (req, res) => {
       res.status(500).json({code: 500, message: 'Internal server error'});
     });
 });
-
-// Never expose all your users like below in a prod application
-// we're just doing this so we have a quick way to see
-// if we're creating users. keep in mind, you can also
-// verify this in the Mongo shell.
-// router.get('/', (req, res) => {
-//   return User.find()
-//     .then(users => res.json(users.map(user => user.serialize())))
-//     .catch(err => res.status(500).json({message: 'Internal server error'}));
-// });
-
-// Post to save a new list
+// delete user account
+router.delete('/delete', jwtAuth, (req, res) => {
+  List
+  .find({ user_id: req.user.user_id })
+  .then(lists => {
+    const listIds = lists.map( list => { return list._id; }); 
+    List.deleteMany({ _id: { $in: listIds } })
+    .then(() => {
+      Comment.deleteMany({ list_id: { $in: listIds } })
+      .then()
+      .catch( err => console.log(err) )
+    })
+  })
+  .then(() => {
+    User.deleteAccount(req.user.user_id)
+    .then(() => {
+      return res.status(200).json({ message: 'User and related data deleted' });
+    })
+  })
+  .catch( err => console.log(err) );
+});
+// search route
+router.get('/search', jwtAuth, (req, res) => {
+  User
+  .findOne({ _id: req.user.user_id })
+  .then( user => {
+    res.status(200).json({
+      title: 'Search for recipes',
+      firstName: user.firstName
+      });
+  })
+  .catch( err => console.log(err));
+});
+// profile route
+router.get('/profile', jwtAuth, (req, res) => {
+  User
+    .findOne({ _id: req.user.user_id })
+    .then( user => {
+      res.status(200).json({
+        title: 'My profile',
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.username,
+        listsCount: user.lists.length
+      });
+    })
+    .catch( err => console.log(err));
+});
+// lists route
+router.get('/lists', jwtAuth, (req, res) => {
+  User
+  .findById({ _id: req.user.user_id })
+  .then(user => {
+    res.status(200).json({
+      title: 'My saved shopping lists',
+      firstName: user.firstName,
+      lists: user.lists
+    });
+  })
+  .catch(err => res.json(err));
+});
+// save a new list
 router.post('/lists/add', jsonParser, jwtAuth, (req, res) => {
   List.createList(req.body, req.user)
     .then(list => {
@@ -168,41 +218,6 @@ router.post('/lists/add', jsonParser, jwtAuth, (req, res) => {
       .catch( err => res.status(500).json({ message: err.statusText }));
     });
 });
-// delete user account
-router.delete('/delete', jwtAuth, (req, res) => {
-  List
-  .find({ user_id: req.user.user_id })
-  .then(lists => {
-    const listIds = lists.map(list => {
-      return list._id;
-    })
-    listIds.forEach(id  => {
-      List.deleteList(id)
-      .then(list => {
-        console.log('User list item deleted');
-        Comment
-        .find({ list_id: id })
-        .then(comments => {
-          console.log(comments);
-          comments.forEach(comment => {
-            Comment.deleteComment(comment._id)
-            .then(() => console.log('List associated comments deleted'))
-            //.catch(err => console.log(err));
-          });
-        })
-        .catch(err => console.log(err));
-      })
-      //.catch(err => console.log(err));
-    });
-  })
-  .then(() => {
-    User.deleteAccount(req.user.user_id)
-    .then(() => {
-      return res.status(200).json({ message: 'User account successfully deleted' });
-    })
-  })
-  .catch(err => console.log(err));
-});
 // delete list item
 router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
   List
@@ -210,17 +225,13 @@ router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
   .then(list => {
     const commentIds = list.comments.map(comment => {
       return comment._id;
-    })
-    commentIds.forEach(id  => {
-      Comment.deleteComment(id)
-        .then(() => {})
-        .catch(err => console.log(err));
     });
+    Comment.deleteMany({ _id: {$in : commentIds }}).then()
     return list;
   })
   .then(list => {
     List
-    .deleteList(req.body.list_id)
+    .deleteOne({ _id: req.body.list_id})
     .then( list => {
       User
       .findOne({ _id: req.user.user_id })
@@ -231,20 +242,30 @@ router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
         return user.save();
       })
       .then(user => {
-        res.json({
+        res.status(201).json({
           title: 'My saved shopping lists',
           firstName: user.firstName,
           lists: user.lists
         });
       })
-      .catch(err => console.log('UserSchema statics error: ', err))
+      .catch(err => console.log(err));
     })
-    .catch(err => console.log(err));
   })
   .catch(err => console.log(err))
 });
-
-// Post to save a new comment
+// show list route
+router.get('/list', jwtAuth, (req, res) => {
+  List 
+  .findById({ _id: req.query.list_id })
+  .then(list => {
+    res.json({
+      firstName: req.user.firstName,
+      list: list
+    });
+  })
+  .catch(err => res.json(err));
+});
+// Post to save a new list comment
 router.post('/comments/add', jsonParser, jwtAuth, (req, res) => {
   Comment.addComment(req.body.content, req.body.list_id)
   .then(comment => {
@@ -282,8 +303,8 @@ router.post('/comments/add', jsonParser, jwtAuth, (req, res) => {
 });
 // delete list comment
 router.delete('/comments/delete', jsonParser, jwtAuth, (req, res) => {
-  Comment.deleteComment(req.body.comment_id)
-  .then(comment => {
+  Comment.deleteOne({ _id: req.body.comment_id })
+  .then(() => {
     User
       .findById(req.user.user_id)
       .then(user => {
@@ -318,58 +339,6 @@ router.delete('/comments/delete', jsonParser, jwtAuth, (req, res) => {
       .catch(err => console.log(err));
   })    
   .catch(err => console.log(err));
-});
-
-router.get('/search', jwtAuth, (req, res) => {
-  User
-  .findOne({ _id: req.user.user_id })
-  .then( user => {
-    res.status(200).json({
-      title: 'Search for recipes',
-      firstName: user.firstName
-      });
-  })
-  .catch( err => console.log(err));
-});
-
-router.get('/profile', jwtAuth, (req, res) => {
-  User
-    .findOne({ _id: req.user.user_id })
-    .then( user => {
-      res.status(200).json({
-        title: 'My profile',
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.username,
-        listsCount: user.lists.length
-      });
-    })
-    .catch( err => console.log(err));
-});
-
-router.get('/lists', jwtAuth, (req, res) => {
-  User
-  .findById({ _id: req.user.user_id })
-  .then(user => {
-    res.status(200).json({
-      title: 'My saved shopping lists',
-      firstName: user.firstName,
-      lists: user.lists
-    });
-  })
-  .catch(err => res.json(err));
-});
-
-router.get('/list', jwtAuth, (req, res) => {
-  List 
-  .findById({ _id: req.query.list_id })
-  .then(list => {
-    res.json({
-      firstName: req.user.firstName,
-      list: list
-    });
-  })
-  .catch(err => res.json(err));
 });
 
 module.exports = {router};

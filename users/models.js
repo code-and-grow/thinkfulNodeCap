@@ -19,9 +19,6 @@ CommentSchema.methods.serialize = function() {
 CommentSchema.statics.addComment = function(content, listId) {
   return this.create({ content: content, list_id: listId });
 };
-CommentSchema.statics.deleteComment = function(commentId) {
-  return this.deleteOne({ _id: commentId });
-};
 
 const ListSchema = mongoose.Schema({ 
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -56,10 +53,6 @@ ListSchema.statics.createList = function(body, user) {
    });
 };
 
-ListSchema.statics.deleteList = function(listId) {
-  return this.deleteOne({ _id: listId });
-};
-
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
@@ -80,7 +73,8 @@ UserSchema.methods.serialize = function() {
     username: this.username || '',
     firstName: this.firstName || '',
     lastName: this.lastName || '',
-    user_id: this._id
+    lists: this.lists || '',
+    user_id: this._id || ''
   };
 };
 

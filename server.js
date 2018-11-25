@@ -48,13 +48,6 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 
-// A protected endpoint which needs a valid JWT to access it
-app.get('/api/protected', jwtAuth, (req, res) => {
-  return res.status(200).json({
-    data: 'rosebud'
-  });
-});
-
 /* RE-DIRECTING NOT DEFINED ROUTES */
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });

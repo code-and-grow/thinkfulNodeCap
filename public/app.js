@@ -1175,7 +1175,7 @@ function initClient() {
                           <h2>Sign in</h2>
                           <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
                           <form action="" id="js-login-form" class="login-form">
-                            <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Email address" required>
+                            <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Registered email address" required>
                             <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
                             <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
                           </form>
