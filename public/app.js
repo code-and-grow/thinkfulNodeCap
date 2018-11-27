@@ -264,7 +264,7 @@ function handleError(error) {
   const response = error.responseJSON;
   
   if (error.status === 401 ) {
-    $('.js-login-err').html(`<h4>${message401}. Please check entered email and password.</h4>`)
+    $('.js-login-err').html(`<h4>Not found. Please check entered email and password.</h4>`)
                       .attr('aria-hidden', 'false');
   } else if (response.location === 'username') {
     $('.js-create-account-err').html(`<h4>${response.message}. If you have an account, you can sign in using the 'Log in' form.</h4>`)
@@ -1169,7 +1169,7 @@ function searchSubmit() {
 function initClient() {
   if(!localStorage.token) {
     $('title').append('Sign in or sign up!');
-    $('#header-container header').append('<h1>Sign in or sign up!</h1>');
+    $('#header-container header').append('<h1>DinnerList<br><span>Recipe to Shopping List converter</span></h1>');
     $('#main').append(`<div id="start-page">
                         <div>
                           <h2>Sign in</h2>
