@@ -1,0 +1,9 @@
+language: node_js
+node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: LlBSsqUD6gtMpjoyBS2Kb6WYUq41KZ4DXoLMKSUXIbLsPCSrK46+QPThCdrAcgjDtcLRh81zBgrv6bokHHfSwWyG8GTazUDBtzIw9xD+9aH4xkUoOuJWOdyuU8CcXWrdtAaiNkEI2IMjzOimcmnP6wGJwp5KFEYqj1DzAtfxCDUH4ngEmcdBkG+WxBFO+/jgnvp8lT5VAI+3kaOomRXGZlpVXX1OmEumdbJEFp/fe+0XVKGdcQmlcOryM5uNrUJXxjRdLpxezc8954qE4Ujf9BvsarJLeAmz+kDJZ9a8/g7Pze06gFO92LE9XKhcqpkNgfbBAwv/VkbcLk1nzkvpId0XvjQZotKgoB3QBZ3QCA/Hy1lqYVXCW4MqfqMLbaMPSUcpAQwExZrOFUFqYItA/TP2AUmwDfVPvJ+xpc/By6wm1XzMwDjfVPN8DNUjmcyEG8efI966sH2/+5YBtWJJ+v3EKILePI6DUtxggTh7CuL3wQkqBMrUUpUEGV6mzEZoNHq64KSRzrGLIVLmMgfobUOgMdEP8Q9bhuf8S4w83aGHitGte2s6h5nO7YKMv3l66gB/trQglIR1DUxdLthIIJOR+zU3t54A/3mz5F3ZD/4tWhk0USNOJkeeGpU/670YrYDcQr27mFyCIyXa/f9rvWHFltyZLpNLwVIHjVFa8KY=
+  app: nodecapstone
+  on:
+    repo: pjotrpaan/thinkfulNodeCap
