@@ -195,7 +195,7 @@ router.get('/lists', jwtAuth, (req, res) => {
   .findById({ _id: req.user.user_id })
   .then(user => {
     res.status(200).json({
-      title: 'My saved shopping lists',
+      title: 'My saved lists',
       firstName: user.firstName,
       lists: user.lists
     });

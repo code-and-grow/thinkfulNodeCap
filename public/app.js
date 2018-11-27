@@ -392,7 +392,7 @@ function renderPage(response, html, hashStr) {
                 </ul>
               </nav>
             </div>
-            <h1>${response.title}</h1>`);
+            <h1 id="logged-in-h1">${response.title}</h1>`);
   $('#main')
     .empty()
     .append(html);

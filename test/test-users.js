@@ -970,7 +970,7 @@ describe('User endpoints', function () {
                   .set( 'Authorization', `Bearer ${ res.body.authToken }` )
                   .then(res => {
                     expect(res).to.have.status(200);
-                    expect(res.body.title).to.equal('My saved shopping lists');
+                    expect(res.body.title).to.equal('My saved lists');
                     expect(res.body.firstName).to.equal(user.firstName);
                     expect(res.body.lists).to.be.an('array');
                     if(res.body.lists.length > 0) {
