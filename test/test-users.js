@@ -58,7 +58,7 @@ describe('User endpoints', function () {
   });
 
   beforeEach(function () {
-    return List.deleteMany({});
+  
    });
 
   afterEach(function () {
