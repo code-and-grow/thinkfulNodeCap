@@ -387,7 +387,7 @@ function renderPage(response, html, hashStr) {
                 <ul class="top-nav">
                   <a href="#search"><li>Search</li></a>
                   <a href="#lists"><li>Saved lists</li></a>
-                  <a href="#profile"><li>User profile</li></a>
+                  <a href="#profile"><li>My profile</li></a>
                   <a onclick='logOut()'><li>Log out</li></a>
                 </ul>
               </nav>
@@ -467,13 +467,21 @@ function showProfile() {
     error: function(error) { console.log(error) }
   });
 }
+// Add stars to rating display
+function starRating(ratingValue) {
+  let stars = '';
+  for (let i = 0; i < ratingValue; i++) {
+    stars += '<img class="star" src="images/star.png" alt="" aria-hidden="true">';
+  }
+  return stars;
+}
 // render lists html
 const showListsHtml = function(data) {
   return '<section id="saved-lists">' + 
     data.map( (list, index) => `<div class="saved-lists-item" id="${list._id}"  style="text-align: center;">
       <h3 class="list-item-h3"><a  class="js-show-list">${index + 1}. ${list.title}</a></h3>
-      <span>Yummly rating: ${list.rating} </span>
-      <span>Comments: ${list.comments.length} </span>
+      <p>${starRating(list.rating)}</p>
+      <p>Comments: ${list.comments.length} </p>
       <div style="text-align: center;">
         <button class="js-show-list">View</button>
         <button id="${list._id}" class="js-delete-list">Delete</button>
@@ -529,7 +537,7 @@ const showListHtml = function(data) {
   return  `<div class="result" id="${list._id}">
             <div id="result-top">
               <img src="${list.image}" alt="Image of ${list.title}">
-              <span>Yummly rating: ${list.rating} / 5</span>
+              <span>${starRating(list.rating)}</span>
             </div>
             <div id="result-texts">
               <div id="ingredients">
@@ -971,15 +979,6 @@ function renderResult(result) {
                             </div>
                           </a>`);
 }
-
-// Add stars to rating display
-function starRating(ratingValue) {
-  let stars = '';
-  for (let i = 0; i < ratingValue; i++) {
-    stars += '<img class="star" src="images/star.png" alt="" aria-hidden="true">';
-  }
-  return stars;
-}
 // Return ingredients list items
 function ingredientsList(ingredientArray) {
   let resultIngList = '';
@@ -1099,14 +1098,19 @@ function showRecipeToUser() {
     const contentHtml = `<p id="closeLightbox">X</p>
                           <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
                           <h2>${recipeDetails.name}</h2>
-                          <p class="rating">${starRating(recipeDetails.rating)}<span>${recipeDetails.rating} star rating</span></p>
-                          <p class="clock">${recipeDetails.totalTime}</p>
-                          <p class="courses"> ${checkCourse()}</p>
-                          <p class="yield">${checkYield()}</p>
-                          <p class="ingredients">Ingredients:</p>
-                          <ul>
+                          <p class="rating">
+                            ${starRating(recipeDetails.rating)}
+                            <span>${recipeDetails.rating} star rating</span>
+                          </p>
+                          <div id="lightbox-content-details">
+                            <p class="clock">${recipeDetails.totalTime}</p>
+                            <p class="courses"> ${checkCourse()}</p>
+                            <p class="yield">${checkYield()}</p>
+                          </div>
+                          <span class="ingredients">Ingredients:</span>
+                          <ol>
                             ${ingredientsList(recipeDetails.ingredients)}
-                          </ul>
+                          </ol>
                           <p class="source">
                             For detailed instructions visit 
                             <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed instructions visit ${recipeDetails.sourceName}.">
@@ -1115,17 +1119,17 @@ function showRecipeToUser() {
                           </p>
                           <p>
                             <button id="js-save-list">Save to my lists</button>
-                            <div class="yummly-ref">
+                            <!--<div class="yummly-ref">
                               <a href="${recipeDetails.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
                               <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
                               <br>POWERED RECIPE
                               </a>
                             </div>
-                            <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
+                           <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
                               <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${recipeDetails.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
                                 <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
                               </a>
-                            </div>
+                            </div>-->
                           </p>`;
     // If lightbox exists
     if ($('#lightbox').length > 0) { 

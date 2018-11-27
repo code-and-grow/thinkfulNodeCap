@@ -13,23 +13,9 @@ body {
   line-height: 1.5;
   color: #333;
 }
-#container {
-  min-height:100%;
-  position:relative;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-#bg {
-  background: url(images/lily-banse-365344-unsplash.jpg) no-repeat 50% 50% fixed;
-  background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  -webkit-background-size: cover;
-}
 header {
   width: 100%;
 }
-
 footer {
   padding: 5px 0 0;
   width: 100%;
@@ -56,17 +42,28 @@ h1 {
   margin-bottom: 45px;
   max-width: 60%;
   font-size: 2.5rem;
-  background: rgba(255,255,255,0.8);
+  background: #ff6402;
+  color: #fff;
   border-radius: 15px;
-  border: 2px solid #ffeba4;
+  border: 3px solid #ffdf6f;
   padding: 30px;
   margin-left: auto;
   margin-right: auto;
   word-wrap: break-word;
+  line-height: 1.1;
 }
 h1 span {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 1.61rem;
+  padding-top: 15px;
+  display: inline-block;
+}
+#logged-in-h1 {
+  font-size: 1.2rem;
+  padding: 8px;
+  max-width: 80%;
+  background: #ff6402;
+  color:#fff;
 }
 h2,
 h4 {
@@ -84,7 +81,7 @@ nav {
 nav ul {
   display: block;
   list-style-type: none;
-  margin: 0 20px 0 0;
+  margin: 0 15px 0 0;  
   padding: 0;
   float: right;
 }
@@ -98,14 +95,28 @@ nav ul a li {
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.75rem;  
   font-weight: 700;
   padding: 8px 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-
-/* Change the link color to #111 (black) on hover */
+#container {
+  min-height:100%;
+  position:relative;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+#bg {
+  background-color: #333;
+  background: url(images/lily-banse-365344-unsplash.jpg) no-repeat 50% 50% fixed;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+}
 nav ul a li:hover {
   background-color: #ff6402;
   color: white;
@@ -119,10 +130,11 @@ fieldset {
 #top-bar {
   padding-top: 8px;
   padding-bottom: 8px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.9);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  border-bottom: 2px solid #ffeba4;
+  border: 3px solid #ffeba4;
+  border-top: none;
 }
 
 #header-container {
@@ -133,7 +145,7 @@ fieldset {
 
 #header-name {
   padding: 6px 16px;
-  display: block;
+  display: none;
   float: left;
   font-weight: 700;
   margin-left: 10px;
@@ -154,9 +166,9 @@ fieldset {
   display: flex;
   flex-wrap: wrap;
   margin-bottom:50px;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.9);
   border-radius: 15px;
-  border: 2px solid #ffeba4;
+  border: 3px solid #ffeba4;
 }
 
 #start-page div {
@@ -176,9 +188,9 @@ fieldset {
 	text-align: center;
 	padding: 0 20px 13px;
 	margin: 1% 4%;
-	background: rgba(255,255,255,0.8);
+	background: rgba(255,255,255,0.9);
   border-radius: 15px;
-  border: 2px solid #ffeba4;
+  border: 3px solid #ffeba4;
 }
 .saved-lists-item {
   margin: 0;
@@ -189,7 +201,7 @@ fieldset {
   margin-top: 0;
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(auto-fill, minmax(470px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
   grid-gap: 20px;
 }
 .result h4 {
@@ -201,10 +213,11 @@ fieldset {
 .js-delete-comment,
 .js-add-comment {
   background: transparent;
-  color: #000000;
+  color: #333;
   margin: 0;
   padding: 0 8px 8px 8px;
   margin-left: 15px;
+  border: none;
 }
 .js-delete-comment {
   margin-left: 0;
@@ -218,7 +231,7 @@ fieldset {
 }
 #result-texts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-gap: 30px;
   padding: 20px;
 }
@@ -229,11 +242,8 @@ fieldset {
 #result-top img {
   margin-bottom: 20px;
 }
-#result-top span {
-  font-weight: bold;
-  font-style: italic;
-  text-align: left;
-  display: block;
+#result-top span img {
+  width: 5%;
 }
 #ingredients,
 #comments,
@@ -289,8 +299,8 @@ input#js-comment-field {
 .create-account-form input {
   border: 0;
   border:0 none;
-  border: 2px solid #ffeba4;
-  border-radius: 5px;
+  border: 3px solid #ffeba4;
+  border-radius: 8px;
   display: block;
   margin: 8px auto;
   outline: 0;
@@ -304,9 +314,9 @@ input#js-comment-field {
 .search-form {
   width: 92%;
   margin-bottom: 100px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.9);
   border-radius: 15px;
-  border: 2px solid #ffeba4;
+  border: 3px solid #ffeba4;
 }
 
 .search-form h2 {
@@ -323,8 +333,8 @@ button {
   padding:15px 25px; 
   background:#f90;
   border:0 none;
-  border: 2px solid #ffeba4;
-  border-radius: 5px;
+  border: 3px solid #ffeba4;
+  border-radius: 8px;
   color:#fff;
   cursor:pointer;
   font-weight: 700;
@@ -448,7 +458,9 @@ input[type=checkbox] {
 .js-result {
 	padding: 15px;
 	cursor: pointer;
-  border: 1px dotted grey;
+  background: rgba(255,255,255,0.9);
+  border-radius: 15px;
+  border: 3px solid #ffeba4;
 	-webkit-transition: -webkit-transform 0.5s ease;
 	-moz-transition: -moz-transform 0.5s ease;
 	transition: transform 0.5s ease;
@@ -463,6 +475,7 @@ input[type=checkbox] {
 .js-result h3,
 .js-result h4 {
   text-align: left;
+  margin-bottom: 0px;
 }
 
 .js-result:hover {
@@ -488,7 +501,9 @@ input[type=checkbox] {
 .rating span {
 	display: none;
 }
-
+.rating img {
+  width: 5%;
+}
 .clock::before {
 	position: relative;
 	content:url('../images/clock-23px.svg');
@@ -512,7 +527,8 @@ input[type=checkbox] {
 }
 
 .ingredients-list {
-	list-style: disc inside;
+  list-style: disc inside;
+  padding-left: 10px;
 }
 
 img.star {
@@ -544,7 +560,8 @@ img.star {
 }
 
 #lightbox-content h2 {
-	font-size: 1.5rem;
+  font-family: 'Delius Unicase', cursive;
+	font-size: 2.2rem;
 	text-transform: uppercase;
 }
 
@@ -554,19 +571,23 @@ img.star {
 }
 
 #lightbox-content p {
-	margin-bottom: 10px;
+  margin-bottom: 0px;
+  text-align: center;
 }
 
-p.courses,
-p.yield,
-p.clock, {
+#lightbox-content-details {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#lightbox-content-details > p {
 	display: inline-block;
 	padding: 0 20px 0 0;
 }
 
 .js-rating-container img.star,
 #lightbox-content img.star {
-	width: 7%;
+	width: 5%;
 	margin-bottom: -1px;
 }
 
@@ -654,18 +675,68 @@ img#yummly-logo {
   h1 {
     font-size: 2.75rem;
   }
+  nav ul a li {
+    font-size: 0.91rem;
+  }
 }
-@media (min-width: 375px){
+@media (min-width: 375px) {
   h1 {
-      font-size: 3rem;
+    font-size: 3.1rem;
   }
   #logged-in-h1 {
-    font-size: 2rem;
+    font-size: 1.4rem;
+    padding: 12px;
+  }
+  #container {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+@media (min-width: 411px) {
+  #top-bar {
+    padding-bottom: 14px;
+  }
+  nav ul a li {
+    font-size: 1.075rem;
+  }
+}
+@media (min-width: 520px) {
+  #header-name {
+    display: block;
+  }
+  #logged-in-h1 {
+    max-width: 50%;
+  }
+  .search-form {
+    width: 72%;
+  }
+}
+@media (min-width: 720px) {
+  #logged-in-h1 {
+    font-size: 1.9rem;
+    padding: 16px;
+    width: 35%;
+  }
+  .profile {
+    width: 50%;
+    margin: 0 auto;
+  }
+  #saved-lists {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 @media (min-width: 900px) {
   body {
-    width: 70%;
+    width: 90%;
+  }
+  h1 {
+    width: 40%;
+  }
+  #start-page {
+    width: 80%;
+    margin: 0 auto;
   }
   .search-form {
     width: 480px;
@@ -679,12 +750,27 @@ img#yummly-logo {
   #container {
     margin-left: auto;
     margin-right: auto;
-    width: 65%;
+    width: 85%;
+  }
+  h1 {
+    width: 35%;
+  }
+  #start-page {
+    width: 70%;
+  }
+  #logged-in-h1 {
+    width: 40%;
+  }
+  #saved-lists {
+    width: 90%;
   }
 }
 
 @media (min-width: 1920px){
   #container {
+    width: 60%;
+  }
+  #start-page {
     width: 50%;
   }
 }
