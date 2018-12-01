@@ -3,6 +3,7 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
+
 }
 
 body {
@@ -166,13 +167,16 @@ fieldset {
   display: flex;
   flex-wrap: wrap;
   margin-bottom:50px;
+  width: 90%;
+  margin-left:auto;
+  margin-right: auto;
   background: #fff;
   border-radius: 15px;
   border: 3px solid #ffeba4;
 }
 
 #start-page div {
-  flex: 1 1 300px;
+  flex: 1 1 350px;
 }
 
 #saved-lists {
@@ -289,7 +293,7 @@ fieldset {
 #ingredients h2,
 #comments h2 {
   text-align: left;
-  margin-right: 40px;
+  margin-right: 14px;
 }
 #ingredients h2,
 #comments h2 {
@@ -513,6 +517,15 @@ input[type=checkbox] {
   padding: 0 20px 20px;
 }
 
+.back-link {
+  width: 80%;
+  background: #fff;
+  border-radius: 15px;
+  border: 3px solid #ffeba4;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .js-result {
 	padding: 15px;
 	cursor: pointer;
@@ -595,6 +608,8 @@ img.star {
 
 .back-link {
   text-align: center;
+  margin-bottom: 75px;
+  padding: 40px 0 0;
 }
 
 #lightbox {
@@ -706,13 +721,13 @@ img.star {
 }
 
 img#yummly-logo {
-	width: 50% !important;
+	width: 80% !important;
 	margin: 7px auto 12px;
 }
 
 .yummly-ref,
 .fb-share-button {
-	width: 50%;
+	width: 49%;
 	display: inline-block;
 	margin-top: 30px;
 	font-size: 0.65rem;
@@ -797,6 +812,16 @@ img#yummly-logo {
     width: 50%;
     margin: 0 auto;
   }
+  img#yummly-logo {
+    width: 55% !important;
+  }
+  #start-page {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .back-link {
+    width: 55%;
+  }
   #saved-lists {
     width: 80%;
     margin-left: auto;
@@ -816,16 +841,15 @@ img#yummly-logo {
   h1 {
     width: 40%;
   }
-  #start-page {
-    width: 80%;
-    margin: 0 auto;
-  }
   .result {
     width: 45%;
   }
   .search-form {
     width: 480px;
     margin-bottom: 100px;
+  }
+  .back-link {
+    width: 40%;
   }
   #lightbox-content {
     width: 450px;
@@ -843,6 +867,9 @@ img#yummly-logo {
   #start-page {
     width: 70%;
   }
+  #start-page div {
+      flex: 1 1 340px;
+  }
   #logged-in-h1 {
     width: 40%;
   }
@@ -857,5 +884,11 @@ img#yummly-logo {
   }
   #start-page {
     width: 50%;
+  }
+  .back-link {
+    width: 35%;
+  }
+  #start-page div {
+    flex: 1 1 350px;
   }
 }
