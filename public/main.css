@@ -38,8 +38,8 @@ h1, h2, h3, h4 {
 h1 {
   font-family: 'Delius Unicase', cursive;
   font-weight: 700;
-  margin-top: 30px;
-  margin-bottom: 45px;
+  margin-top: 35px;
+  margin-bottom: 35px;
   max-width: 60%;
   font-size: 2.5rem;
   background: #ff6402;
@@ -50,7 +50,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   word-wrap: break-word;
-  line-height: 1.1;
+  line-height: 1.5;
 }
 h1 span {
   font-family: 'Ubuntu Condensed', sans-serif;
@@ -76,7 +76,7 @@ h4 a {
   color: #000;
 }
 nav {
-  height: 31px;
+  height: 40px;
 }
 nav ul {
   display: block;
@@ -129,8 +129,8 @@ fieldset {
 }
 #top-bar {
   padding-top: 8px;
-  padding-bottom: 8px;
-  background: rgba(255,255,255,0.9);
+  padding-bottom: 0;
+  background: #fff;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   border: 3px solid #ffeba4;
@@ -155,7 +155,7 @@ fieldset {
   text-decoration: none;
 }
 #header-name img {
-  margin-bottom: -3px;
+  margin-bottom: -5px;
   margin-right: 7px;
 }
 #start-header {
@@ -166,7 +166,7 @@ fieldset {
   display: flex;
   flex-wrap: wrap;
   margin-bottom:50px;
-  background: rgba(255,255,255,0.9);
+  background: #fff;
   border-radius: 15px;
   border: 3px solid #ffeba4;
 }
@@ -188,27 +188,59 @@ fieldset {
 	text-align: center;
 	padding: 0 20px 13px;
 	margin: 1% 4%;
-	background: rgba(255,255,255,0.9);
+	background: #fff;
   border-radius: 15px;
   border: 3px solid #ffeba4;
 }
+.profile > img {
+  margin-top: 30px;
+}
 .saved-lists-item {
   margin: 0;
+}
+.list-item-h3 {
+  font-size: 1.5rem;
+}
+.list-item-h3 img {
+  max-width: 100%;
+  min-width: 100%;
+  margin-bottom: 15px;
+}
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+}
+ 
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+}
+ 
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+ 
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #f8ce0b;
 }
 .result {
   padding: 20px;
   margin-bottom: 100px;
   margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-  grid-gap: 20px;
+  width: 80%;
 }
 .result h4 {
   margin-bottom: 0;
-}
-.result img {
-  width: 100%;
 }
 .js-delete-comment,
 .js-add-comment {
@@ -231,15 +263,22 @@ fieldset {
 }
 #result-texts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(auto, 100%));
   grid-gap: 30px;
-  padding: 20px;
+  padding: 0;
+}
+#ingredients p {
+  font-weight: 700;
+  margin-left: 11px;
+  text-align: left;
 }
 #result-top,
 #result-buttons {
   text-align: center;
 }
 #result-top img {
+  max-width: 100%;
+  min-width: 100%;
   margin-bottom: 20px;
 }
 #result-top span img {
@@ -256,6 +295,12 @@ fieldset {
 #comments h2 {
   font-size: 1.1rem;
   padding-left: 10px;
+}
+#ingredients h2 {
+  font-size: 1.4rem;
+}
+#comments h2 {
+  margin-top: 50px;
 }
 #ingredients ol,
 #comments ol {
@@ -314,7 +359,7 @@ input#js-comment-field {
 .search-form {
   width: 92%;
   margin-bottom: 100px;
-  background: rgba(255,255,255,0.9);
+  background: #fff;
   border-radius: 15px;
   border: 3px solid #ffeba4;
 }
@@ -358,6 +403,7 @@ input[type=checkbox] {
   background:#ccc; 
   border:0 none;
   cursor:pointer;
+  margin-right: 3px;
 }
 
 .err-message {
@@ -380,7 +426,18 @@ input[type=checkbox] {
 
 #allergies label,
 #courses label {
-  padding: 10px;
+  display: inline-block;
+  margin: 2px;
+  padding: 5px 10px;
+  font-size: 1.15rem;
+  vertical-align: bottom;
+  border-radius: 5px;
+}
+
+#allergies label:hover,
+#courses label:hover {
+  background-color: #ff6402;
+  color: #fff;
 }
 
 .checkbox {
@@ -403,18 +460,19 @@ input[type=checkbox] {
 
 .included-tags-input .tag,
 .excluded-tags-input .tag {
-  font-size: 85%;
+  font-size: 95%;
   padding: 0.5em 0.75em;
   margin: 0.25em 0.1em;
   display: inline-block;
   background-color: #ddd;
+  border-radius: 5px;
   transition: all 0.1s linear;
   cursor: pointer;
 }
 
 .included-tags-input .tag:hover,
 .excluded-tags-input .tag:hover {
-  background-color: #3af;
+  background-color: #ff6402;
   color: white;
 }
 
@@ -452,13 +510,13 @@ input[type=checkbox] {
 	grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
 	grid-gap: 20px;
   font-size: 1.0rem;
-  padding: 20px;
+  padding: 0 20px 20px;
 }
 
 .js-result {
 	padding: 15px;
 	cursor: pointer;
-  background: rgba(255,255,255,0.9);
+  background: #fff;
   border-radius: 15px;
   border: 3px solid #ffeba4;
 	-webkit-transition: -webkit-transform 0.5s ease;
@@ -479,14 +537,14 @@ input[type=checkbox] {
 }
 
 .js-result:hover {
-	-webkit-transform: scale(1.04);
-	-moz-transform: scale(1.04);
-	-o-transform: scale(1.04);
-	transform: scale(1.04);
-	-webkit-transform-origin: center;
-	-moz-transform-origin: center;
-	-o-transform-origin: center;
-	transform-origin: center;
+	-webkit-transform: scale(1.03);
+	-moz-transform: scale(1.03);
+	-o-transform: scale(1.03);
+	transform: scale(1.03);
+	-webkit-transform-origin: top;
+	-moz-transform-origin: top;
+	-o-transform-origin: top;
+	transform-origin: top;
 }
 
 .js-result p {
@@ -562,7 +620,8 @@ img.star {
 #lightbox-content h2 {
   font-family: 'Delius Unicase', cursive;
 	font-size: 2.2rem;
-	text-transform: uppercase;
+  text-transform: uppercase;
+  text-align: left;
 }
 
 #lightbox-content img {
@@ -571,13 +630,18 @@ img.star {
 }
 
 #lightbox-content p {
+  margin: 50px auto 30px;
+  text-align: center;
+}
+
+#lightbox-content button {
   margin-bottom: 0px;
   text-align: center;
 }
 
 #lightbox-content-details {
   text-align: center;
-  margin: 30px 0;
+  margin: 0 0 25px;
 }
 
 #lightbox-content-details > p {
@@ -601,23 +665,29 @@ img.star {
 	font-weight: bold;
 }
 
+#lightbox-content .ingredients {
+  display: block;
+  margin-left: 26px;
+}
+
 #closeLightbox {
-	font-size: 1.9rem;
+  font-size: 1.9rem;
   font-weight: bold;
   text-align: right;
   cursor: pointer;
   position: fixed;
-  padding: 10px 20px 6px;
-  left: 94%;
-  top: 2%;
+  padding: 2px 20px 0px;
+  left: 89%;
+  top: 5%;
   transform: translate(-50%, -50%);
   background-color: red;
   color: white;
-  border: 2px solid white;
 }
 
-.source {
-	margin-top: 10px;
+#lightbox-content p.source {
+  margin-left: 26px;
+  margin-top: 10px;
+  text-align: left;
 	font-weight: bold;
 	font-style: italic;
 }
@@ -626,38 +696,39 @@ img.star {
 	color: #000;
 }
 
-.fb-share-button {
-	width: 48%;
-	display: inline-block;
-}
+
 
 .fb-share-button img {
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
-	margin-bottom: 9px;
 	width: 27px !important;
 }
 
 img#yummly-logo {
 	width: 50% !important;
-	margin: 7px auto 5px;
+	margin: 7px auto 12px;
 }
 
-.yummly-ref {
+.yummly-ref,
+.fb-share-button {
 	width: 50%;
 	display: inline-block;
 	margin-top: 30px;
-	font-size: 0.55rem;
+	font-size: 0.65rem;
 	text-align: center;
 }
-
-.yummly-ref a {
+.fb-share-button {
+	width: 49%;
+}
+.yummly-ref a,
+.fb-share-button a {
 	text-decoration: none;
 	color: #000;
 }
 
-.yummly-ref a:hover {
+.yummly-ref a:hover,
+.fb-share-button a:hover {
 	text-decoration: underline;
 }
 
@@ -693,20 +764,25 @@ img#yummly-logo {
   }
 }
 @media (min-width: 411px) {
-  #top-bar {
-    padding-bottom: 14px;
-  }
   nav ul a li {
     font-size: 1.075rem;
+  }
+  #top-bar {
+    padding-bottom: 8px;
+  }
+  #lightbox-content {
+    width: 80%;
   }
 }
 @media (min-width: 520px) {
   #header-name {
     display: block;
+    line-height: 2;
   }
   #logged-in-h1 {
     max-width: 50%;
   }
+  .result,
   .search-form {
     width: 72%;
   }
@@ -715,7 +791,7 @@ img#yummly-logo {
   #logged-in-h1 {
     font-size: 1.9rem;
     padding: 16px;
-    width: 35%;
+    width: 38%;
   }
   .profile {
     width: 50%;
@@ -725,6 +801,12 @@ img#yummly-logo {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+  }
+  #result-texts {
+    padding: 20px;
+  }
+  #lightbox-content {
+    width: 80%;
   }
 }
 @media (min-width: 900px) {
@@ -738,12 +820,15 @@ img#yummly-logo {
     width: 80%;
     margin: 0 auto;
   }
+  .result {
+    width: 45%;
+  }
   .search-form {
     width: 480px;
     margin-bottom: 100px;
   }
   #lightbox-content {
-    width: 620px;
+    width: 450px;
   }
 }
 @media (min-width: 1279px){

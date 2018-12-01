@@ -27,6 +27,10 @@ const ListSchema = mongoose.Schema({
   yield: Number,
   image: 'string',
   ingredients: [],
+  sourceUrl: 'string',
+  sourceName: 'string',
+  yummlyUrl: 'string',
+  yummlyLogo: 'string',
   comments: [CommentSchema]
 });
 
@@ -38,6 +42,10 @@ ListSchema.methods.serialize = function() {
     yield: this.yield,
     image: this.image,
     ingredients: this.ingredients,
+    sourceUrl: this.sourceUrl,
+    sourceName: this.sourceName,
+    yummlyUrl: this.yummlyUrl,
+    yummlyLogo: this.yummlyLogo,
     comments: this.comments
   };
 };
@@ -49,7 +57,11 @@ ListSchema.statics.createList = function(body, user) {
     rating: body.rating,
     yield: body.yield,
     image: body.image,
-    ingredients: body.ingredients
+    ingredients: body.ingredients,
+    sourceUrl: body.sourceUrl,
+    sourceName: body.sourceName,
+    yummlyUrl: body.yummlyUrl,
+    yummlyLogo: body.yummlyLogo
    });
 };
 

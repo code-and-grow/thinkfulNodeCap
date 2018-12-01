@@ -238,7 +238,6 @@ let allergyVal = [];
 let allowedIng = [];
 let excludedIng = [];
 let recipes = [];
-
 function getAjax(urlStr, scsFnc) {
   $.ajax({
     url: urlStr,
@@ -255,6 +254,8 @@ function getAjax(urlStr, scsFnc) {
 // save token and redirect on successful login
 function handleLogin(data) {
   localStorage.setItem('token', data.authToken);
+  localStorage.setItem('yummly-id', data.YUMMLY_ID);
+  localStorage.setItem('yummly-key', data.YUMMLY_KEY);
   showSearch();
 }
 
@@ -371,6 +372,7 @@ function updateHistory(currHash) {
 // render page function
 function renderPage(response, html, hashStr) {
   updateHistory(hashStr);
+  $('html body').animate({ scrollTop: 0 }, 'slow');
   $('title')
     .empty()
     .append(response.title);
@@ -379,7 +381,7 @@ function renderPage(response, html, hashStr) {
     .append(`<div id="top-bar">
               <span id="header-name">
                 <a href="#profile">
-                  <img src="images/user-icon.png" alt="" width="18" aria-hidden="true">
+                  <img src="images/FreeVector-Chef-Hat-Icons40x27.jpg" alt="" width="38" aria-hidden="true">
                   Hi, ${response.firstName}!
                 </a>
               </span>
@@ -440,12 +442,13 @@ function showSearch() {
 // render profile page html
 const showProfileHtml = function(data) {
   return  `<div class="profile" id="${data._id}">
+            <img src="images/FreeVector-Chef-Hat-Icons200x135.jpg" width="150">
             <h4>Registered username: ${data.email}</h4>
             <p>First name: <b>${data.firstName}</b><br>Last name: <b>${data.lastName}</b></p>
             <p>Saved shopping lists: <b>${data.listsCount}</b></p>
             <p style="text-align: center;">
-              <a href="#lists"><button>Go to saved lists</button></a>
               <a href="#search"><button>Start a new Search</button></a>
+              <a href="#lists"><button>Go to saved lists</button></a>
               <a><button id="js-delete-account">Delete account</button></a>
             </p>
           </div>`;
@@ -468,19 +471,20 @@ function showProfile() {
   });
 }
 // Add stars to rating display
-function starRating(ratingValue) {
-  let stars = '';
-  for (let i = 0; i < ratingValue; i++) {
-    stars += '<img class="star" src="images/star.png" alt="" aria-hidden="true">';
-  }
-  return stars;
+function starRating(target, ratingValue) {
+  const starTotal = 5;
+  const starPercentage = (ratingValue / starTotal) * 100;
+  const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+  target.style.width = starPercentageRounded; 
 }
 // render lists html
 const showListsHtml = function(data) {
   return '<section id="saved-lists">' + 
     data.map( (list, index) => `<div class="saved-lists-item" id="${list._id}"  style="text-align: center;">
-      <h3 class="list-item-h3"><a  class="js-show-list">${index + 1}. ${list.title}</a></h3>
-      <p>${starRating(list.rating)}</p>
+      <h3 class="list-item-h3"><img src="${list.image}"><a  class="js-show-list">${index + 1}. ${list.title}</a></h3>
+      <div class="stars-outer">
+        <div class="stars-inner"></div>
+      </div>
       <p>Comments: ${list.comments.length} </p>
       <div style="text-align: center;">
         <button class="js-show-list">View</button>
@@ -505,7 +509,7 @@ function deleteList() {
       success: (response) => {
         renderPage(response, showListsHtml(response.lists), 'lists');
         deleteList();
-        showList();
+        showList();;
       },
       error: (error) => console.log(error)
     });
@@ -523,8 +527,11 @@ function showLists() {
     dataType: 'json',
     data: {},
     success: function(response) {
-      //console.log(response);
       renderPage(response, showListsHtml(response.lists), 'lists');
+      console.log(response.lists);
+      response.lists.map(item => {
+        starRating(document.getElementById(item._id).children[1].childNodes[1], item.rating);
+      });
       deleteList();
       showList();
     },
@@ -537,14 +544,36 @@ const showListHtml = function(data) {
   return  `<div class="result" id="${list._id}">
             <div id="result-top">
               <img src="${list.image}" alt="Image of ${list.title}">
-              <span>${starRating(list.rating)}</span>
+              <div class="stars-outer">
+                <div class="stars-inner"></div>
+              </div>
             </div>
             <div id="result-texts">
               <div id="ingredients">
-                <h2>Ingredients:</h2>
+                <h2>Items to buy:</h2>
                 <ol>${list.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ol>
+                <p class="source">
+                  For detailed instructions visit 
+                  <a href="${list.sourceUrl}" target="_blank" aria-label="For instructions visit ${list.sourceName}.">
+                    ${list.sourceName}
+                  </a>.
+                </p>
               </div>
               <div id="comments">
+                <div class="yummly-ref">
+                  <a href="${list.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
+                    <img id="yummly-logo" src="${list.yummlyLogo}" alt="Link to selected recipe Yummly page">
+                    <br>
+                    POWERED RECIPE
+                  </a>
+                </div>
+                <div class="fb-share-button" data-href="${list.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
+                  <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${list.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                    <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
+                    <br>
+                    SHARE WITH FRIENDS
+                  </a>
+                </div>
                 <h2>Comments: ${list.comments.length} </h2>
                 <ol>
                   ${list.comments.map( comment => {
@@ -563,7 +592,7 @@ const showListHtml = function(data) {
               </div>
             </div>
             <div id="result-buttons">
-              <a><button><span>Share </span></button></a>
+              <!--<a><button><span>Share </span></button></a>-->
               <a><button id="${list._id}" class="js-delete-list"><span>Delete</span></button></a>
             </div>
           </div>`;
@@ -592,6 +621,7 @@ function addComm() {
         }),
         success: function(response) {
           renderPage(response, showListHtml(response), response.list._id);
+          starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
           $('title')
             .empty()
             .append(response.list.title);
@@ -627,6 +657,7 @@ function deleteComm() {
       contentType: 'application/json',
       success: (response) => {
         renderPage(response, showListHtml(response), response.list._id);
+        starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
         $('title')
           .empty()
           .append(response.list.title);
@@ -657,6 +688,7 @@ function showList() {
       contentType: 'application/json',
       success: (response) => {
         renderPage(response, showListHtml(response), response.list._id);
+        starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
         $('title')
           .empty()
           .append(response.list.title);
@@ -701,6 +733,8 @@ function logOut() {
   savedHashes = [];
   localStorage.removeItem('token');
   localStorage.removeItem('hash');
+  localStorage.removeItem('yummly-id');
+  localStorage.removeItem('yummly-key');
   window.location.replace('/');
 }
 // render page when user clicks refresh button
@@ -910,9 +944,6 @@ function tagsFromInput(tags, input) {
   });
 }
 
-const APP_ID = '0163f367';
-const APP_KEY = 'fe0abbd328e4ac7137fab9e9459fb9df';
-
 // Search recipes API call 
 function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
   // Set up API call settings
@@ -921,7 +952,9 @@ function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
   localStorage.setItem('queryTerms', queryTerms);
   queryTerms = [];
   const settings = {
-    url: 'https://api.yummly.com/v1/api/recipes?_app_id=' + APP_ID + '&_app_key=' + APP_KEY,
+    url: 'https://api.yummly.com/v1/api/recipes?_app_id=' + 
+      localStorage.getItem('yummly-id') + '&_app_key=' + 
+      localStorage.getItem('yummly-key'),
     data: {
       q: '',
     	allowedCourse: courseVal,
@@ -940,7 +973,11 @@ function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
 function getRecipeData(recipeId, callback) {
 	// Set up recipe API call settings
   const settings = {
-    url: 'https://api.yummly.com/v1/api/recipe/' + recipeId + '?_app_id=' + APP_ID + '&_app_key=' + APP_KEY,
+    url: 'https://api.yummly.com/v1/api/recipe/' + 
+      recipeId + '?_app_id=' + 
+      localStorage.getItem('yummly-id') + 
+      '&_app_key=' + 
+      localStorage.getItem('yummly-key'),
     recipe: {},
     dataType: 'jsonp',
     type: 'GET',
@@ -969,7 +1006,9 @@ function renderResult(result) {
                               <img class="card-image" src="${result.imageUrlsBySize[90]}" alt="Loading recipe image animation"  aria-hidden="true">
                               <h3>${result.recipeName}</h3>
                               <div class="result-info">
-                                <p class="js-rating-container">${starRating(result.rating)}</p>
+                              <div class="stars-outer">
+                                <div class="${result.id} stars-inner"></div>
+                              </div>
                                 <p class="clock">${cookingTime}</p>
                                 <div class="clearfix">
                                   <h4 class="ingredients">Ingredients:</h4>
@@ -978,6 +1017,11 @@ function renderResult(result) {
                               </div>
                             </div>
                           </a>`);
+  //console.log();
+  //starRating(document.querySelector(`.${result.id}`), result.rating);
+  setTimeout( () => {
+    starRating(document.querySelector(`.${result.id}`), result.rating);
+  }, 300); 
 }
 // Return ingredients list items
 function ingredientsList(ingredientArray) {
@@ -993,6 +1037,7 @@ function ingredientsList(ingredientArray) {
 // Display the results to user 
 function displayResults(data) {
   window.location.hash = 'search-results';
+  $('html body').animate({ scrollTop: 0 }, 'fast');
   $('title')
     .empty()
     .append('Search results');
@@ -1011,7 +1056,7 @@ function displayResults(data) {
                                 <a href="#search">Start a new search</a>
                               </h4>
                             </div>`);
-    // Add better resolution images from recipes array
+    //Add better resolution images from recipes array
     // setTimeout(function() {
     //   for (let i = 0; i < recipes.length; i++) {
     //     $('#js-results').find(`#${recipes[i].recipeData.id} img.card-image`)
@@ -1022,6 +1067,8 @@ function displayResults(data) {
     // Open recipe in a lightbox after user click
     //showRecipeToUser();
     showRecipeToUser();
+    console.log(data);
+    //starRating(document.querySelector(`.${recipeDetails.id}`), recipeDetails.rating)
   // No results from API
   } else {
     $('main').append(`<div class="back-link clearfix">
@@ -1041,6 +1088,7 @@ function showRecipeToUser() {
     // Store the clicked recipe data
     const recipeClicked = recipes.find(recipe => recipe.recipeData.id === this.id);
     const recipeDetails = {
+      id: recipeClicked.recipeData.id,
       name: recipeClicked.recipeData.name,
       image: recipeClicked.recipeData.images[0].hostedLargeUrl,
       course: recipeClicked.recipeData.attributes.course,
@@ -1084,7 +1132,11 @@ function showRecipeToUser() {
             ingredients: recipeDetails.ingredients,
             rating: recipeDetails.rating,
             yield: recipeDetails.yield,
-            image: recipeDetails.image
+            image: recipeDetails.image,
+            sourceUrl: recipeDetails.sourceUrl,
+            sourceName: recipeDetails.sourceName,
+            yummlyUrl: recipeDetails.yummlyUrl,
+            yummlyLogo: recipeDetails.yummlyLogo
           }),
           contentType: 'application/json',
           dataType: 'json',
@@ -1093,15 +1145,15 @@ function showRecipeToUser() {
         });
       });
     }
-    
     // Lightbox recipe details html
     const contentHtml = `<p id="closeLightbox">X</p>
                           <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
                           <h2>${recipeDetails.name}</h2>
-                          <p class="rating">
-                            ${starRating(recipeDetails.rating)}
-                            <span>${recipeDetails.rating} star rating</span>
-                          </p>
+                          <div id="star-rating">
+                            <div class="stars-outer">
+                              <div class="${recipeDetails.id} stars-inner"></div>
+                            </div>
+                          </div>
                           <div id="lightbox-content-details">
                             <p class="clock">${recipeDetails.totalTime}</p>
                             <p class="courses"> ${checkCourse()}</p>
@@ -1118,22 +1170,29 @@ function showRecipeToUser() {
                             </a>.
                           </p>
                           <p>
-                            <button id="js-save-list">Save to my lists</button>
-                            <!--<div class="yummly-ref">
+                          <button id="js-save-list">Save to my lists</button>
+                            <div class="yummly-ref">
                               <a href="${recipeDetails.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
-                              <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
-                              <br>POWERED RECIPE
+                                <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
+                                <br>
+                                POWERED RECIPE
                               </a>
                             </div>
-                           <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
+                            <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
                               <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${recipeDetails.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
                                 <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
+                                <br>
+                                SHARE WITH FRIENDS
                               </a>
-                            </div>-->
+                              
+                            </div>
                           </p>`;
     // If lightbox exists
     if ($('#lightbox').length > 0) { 
       $('#lightbox-content').html(contentHtml);
+      const ratingContainer = $('#lightbox-content').find(`.${recipeDetails.id}`);
+      console.log(ratingContainer);
+      starRating(ratingContainer[0], recipeDetails.rating);
       saveToLists();
       // Show lightbox window 
       $('#lightbox').show();
@@ -1146,6 +1205,9 @@ function showRecipeToUser() {
       </div>`;
       //insert lightbox HTML into page
       $('body').append(lightbox);
+      const ratingContainer = $('#lightbox-content').find(`.${recipeDetails.id}`);
+      console.log(ratingContainer[0]);
+      starRating(ratingContainer[0], recipeDetails.rating);
       saveToLists();
     }
     // Click anywhere on the page to get rid of lightbox window
