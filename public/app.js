@@ -550,7 +550,7 @@ const showListHtml = function(data) {
             </div>
             <div id="result-texts">
               <div id="ingredients">
-                <h2>Items to buy:</h2>
+                <h2>Items in shopping list</h2>
                 <ol>${list.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ol>
                 <p class="source">
                   For detailed instructions visit 
@@ -1072,7 +1072,7 @@ function displayResults(data) {
   // No results from API
   } else {
     $('main').append(`<div class="back-link clearfix">
-                                <img class="card-image" src="" alt="Sad emoticon"  aria-hidden="true">
+                                <img class="card-image" src="images/FreeVector-Sad-Chef-Hat-Icons200x135.jpg" alt="Sad emoticon"  aria-hidden="true">
                                 <h3>No results found.</h3>
                                 <h4>
                                   <a href="#search">Start a new search</a>
