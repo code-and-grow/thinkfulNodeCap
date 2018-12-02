@@ -550,11 +550,11 @@ const showListHtml = function(data) {
             </div>
             <div id="result-texts">
               <div id="ingredients">
-                <h2>Items in shopping list</h2>
+                <h2>Ingredients needed</h2>
                 <ol>${list.ingredients.map( ingr => {return '<li>' + ingr + '</li>'} ).join('')}</ol>
                 <p class="source">
                   For detailed instructions visit 
-                  <a href="${list.sourceUrl}" target="_blank" aria-label="For instructions visit ${list.sourceName}.">
+                  <a href="${list.sourceUrl}" target="_blank" aria-label="For detailed preparing instructions visit ${list.sourceName}.">
                     ${list.sourceName}
                   </a>.
                 </p>
@@ -1165,7 +1165,7 @@ function showRecipeToUser() {
                           </ol>
                           <p class="source">
                             For detailed instructions visit 
-                            <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed instructions visit ${recipeDetails.sourceName}.">
+                            <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed preparing instructions visit ${recipeDetails.sourceName}.">
                               ${recipeDetails.sourceName}
                             </a>.
                           </p>
