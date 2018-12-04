@@ -261,7 +261,6 @@ function handleLogin(data) {
 
 // login page error reporting
 function handleError(error) {
-  const message401 = error.statusText;
   const response = error.responseJSON;
   
   if (error.status === 401 ) {
@@ -1253,8 +1252,8 @@ function initClient() {
                             <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
                             <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
                             <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
-                            <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password (min 10 characters)" required>
-                            <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" required>
+                            <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password (min 10 characters)" minlength="10" required>
+                            <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" minlength="10" required>
                             <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
                           </form>
                         </div>

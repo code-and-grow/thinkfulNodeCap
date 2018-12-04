@@ -40,7 +40,11 @@ describe('User endpoints', function () {
     "title" : "Chocolate Banana Freezer Pie",
     "yield": 8,
     "rating" : 3,
-    "image" : "https://lh3.googleusercontent.com/Tjg-EyLHs1XsO1XPpDIo4cT23CIO8lRmOfTsLoZ77KsVEc7DkIKpNJSGIX3Jh_ju63Zit7amH11hWhKYkeu3dw=s360"
+    "image" : "https://lh3.googleusercontent.com/Tjg-EyLHs1XsO1XPpDIo4cT23CIO8lRmOfTsLoZ77KsVEc7DkIKpNJSGIX3Jh_ju63Zit7amH11hWhKYkeu3dw=s360",
+    'sourceUrl': "source url",
+    'sourceName': "source name",
+    'yummlyUrl': "yummly url",
+    'yummlyLogo': "https://en.wikipedia.org/wiki/Yummly#/media/File:Yummly_logo.png"
   };
   const comment = function(list_id) {
     return {
@@ -512,6 +516,10 @@ describe('User endpoints', function () {
                       'rating',
                       'yield',
                       'image',
+                      'sourceUrl',
+                      'sourceName',
+                      'yummlyUrl',
+                      'yummlyLogo',
                       '__v'
                     );
                   })
@@ -696,6 +704,10 @@ describe('User endpoints', function () {
                       'rating',
                       'yield',
                       'image',
+                      'sourceUrl',
+                      'sourceName',
+                      'yummlyUrl',
+                      'yummlyLogo',
                       '__v'
                     );
                     return res.body.lists[res.body.lists.length - 1];
@@ -804,6 +816,10 @@ describe('User endpoints', function () {
                               'ingredients',
                               'comments',
                               'user_id',
+                              'sourceUrl',
+                              'sourceName',
+                              'yummlyUrl',
+                              'yummlyLogo',
                               '__v'
                             );
                             return Comment.deleteMany({});
