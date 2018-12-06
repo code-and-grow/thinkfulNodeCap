@@ -472,6 +472,9 @@ function showProfile() {
 }
 // Add stars to rating display
 function starRating(target, id, ratingValue) {
+  if (target.innerHTML != '') {
+    target.innerHTML = '';
+  }
   let starIcons = [];
   const starCount = 5;
   for (let i = 1; i <= starCount; i++) {
@@ -793,13 +796,37 @@ function logOut() {
   localStorage.clear();
   window.location.replace('/');
 }
+function reloadSearchResults() {
+  $('header')
+      .empty()
+      .append(`<div id="top-bar">
+                <span id="header-name">
+                  <a href="#profile">
+                    <img src="images/FreeVector-Chef-Hat-Icons40x27.jpg" alt="" width="38" aria-hidden="true">
+                    Hi, ${localStorage.firstName}!
+                  </a>
+                </span>
+                <nav>
+                  <ul class="top-nav">
+                    <a href="#search"><li>Search</li></a>
+                    <a href="#lists"><li>Saved lists</li></a>
+                    <a href="#profile"><li>My profile</li></a>
+                    <a onclick='logOut()'><li>Log out</li></a>
+                  </ul>
+                </nav>
+              </div>
+              <h1 id="logged-in-h1">Search results</h1>`);
+    let apiDataFromLocalStorage = JSON.parse(localStorage.getItem('dataFromAPI'));  
+    displayResults(apiDataFromLocalStorage);
+}
 // render page when user clicks refresh button
 window.onload = function(e) {
   localStorage.setItem('hash', window.location.hash.slice(1));
   if(localStorage.getItem(`list-${localStorage.hash}`)) {
     let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
-    console.log(listFromLocalStorage._id);
-   renderList(listFromLocalStorage);
+    renderList(listFromLocalStorage);
+  } else if (localStorage.hash == 'search-results') {
+    reloadSearchResults();
   } else {
     $.ajax({
       url: '/api/users/' + localStorage.hash,
@@ -838,6 +865,9 @@ function renderPageFromHash() {
     case 'lists':
       showLists();
       break;
+    case 'search-results':
+      reloadSearchResults();
+      break;
     case localStorage.hash:
       let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
       renderList(listFromLocalStorage);
@@ -846,7 +876,8 @@ function renderPageFromHash() {
 }
 // render page when user clicks page links or back button
 window.onhashchange = function() {
-  if(localStorage.token) {
+  console.log(localStorage.hash);
+  if (localStorage.token) {
     renderPageFromHash();
   } else {
     logOut();
@@ -1002,9 +1033,6 @@ function tagsFromInput(tags, input) {
 function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
   // Set up API call settings
   recipes = [];
-  let queryTerms = [ courseVal, allergyVal, allowedIng, excludedIng ];
-  localStorage.setItem('queryTerms', queryTerms);
-  queryTerms = [];
   const settings = {
     url: 'https://api.yummly.com/v1/api/recipes?_app_id=' + 
       localStorage.getItem('yummly-id') + '&_app_key=' + 
@@ -1089,6 +1117,7 @@ function ingredientsList(ingredientArray) {
 // Display the results to user 
 function displayResults(data) {
   window.location.hash = 'search-results';
+  localStorage.setItem('dataFromAPI', JSON.stringify(data));
   $('html body').animate({ scrollTop: 0 }, 'fast');
   $('title')
     .empty()
@@ -1240,7 +1269,6 @@ function showRecipeToUser() {
       // Show lightbox window 
       $('#lightbox').show();
       const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
-      console.log(ratingContainer[0]);
       starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
       saveToLists();
       // If lightbox does not exist
@@ -1252,7 +1280,6 @@ function showRecipeToUser() {
       //insert lightbox HTML into page
       $('body').append(lightbox);
       const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
-      console.log(ratingContainer[0]);
       starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
       saveToLists();
     }
