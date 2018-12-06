@@ -204,6 +204,7 @@ fieldset {
 }
 .list-item-h3 {
   font-size: 1.5rem;
+  margin-bottom: 8px;
 }
 .list-item-h3 img {
   max-width: 100%;
@@ -213,26 +214,38 @@ fieldset {
 .stars-outer {
   display: inline-block;
   position: relative;
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
 }
- 
-.stars-outer::before {
-  content: "\f006 \f006 \f006 \f006 \f006";
+.far {
+  color: #525252;
 }
+.fas {
+  color: #ffc144;
+}
+
+.js-star-hover {
+  color: #f90;
+  font-size: 113%;
+}
+
+/* .stars-outer::before {
+  content: "";
+} */
  
-.stars-inner {
+/* .stars-inner {
   position: absolute;
   top: 0;
   left: 0;
   white-space: nowrap;
   overflow: hidden;
-  width: 0;
+  width: 100%;
+  text-align: left;
 }
  
 .stars-inner::before {
-  content: "\f005 \f005 \f005 \f005 \f005";
+  content: "";
   color: #f8ce0b;
-}
+} */
 .result {
   padding: 20px;
   margin-bottom: 100px;
@@ -283,7 +296,7 @@ fieldset {
 #result-top img {
   max-width: 100%;
   min-width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 #result-top span img {
   width: 5%;
@@ -323,7 +336,8 @@ fieldset {
 input#js-comment-field {
   outline: 0;
   padding: 0.7em;
-  width: 100%;
+  min-width: 93%;
+  max-width: 100%;
   border: 1px solid #aaa;
 }
 .saved-lists-item button:hover { 
@@ -499,7 +513,8 @@ input[type=checkbox] {
   border: 0;
   outline: 0;
   padding: 0.7em;
-  width: 100%;
+  max-width: 100%;
+  min-width: 90%;
   border: 1px solid #aaa;
 }
 
@@ -762,7 +777,7 @@ img#yummly-logo {
     font-size: 2.75rem;
   }
   nav ul a li {
-    font-size: 0.91rem;
+    font-size: 0.88rem;
   }
 }
 @media (min-width: 375px) {
@@ -842,7 +857,7 @@ img#yummly-logo {
     width: 40%;
   }
   .result {
-    width: 45%;
+    width: 40%;
   }
   .search-form {
     width: 480px;
@@ -890,5 +905,11 @@ img#yummly-logo {
   }
   #start-page div {
     flex: 1 1 350px;
+  }
+}
+
+@media (min-width: 2560px) {
+  #result-top img {
+    min-width: 550px;
   }
 }

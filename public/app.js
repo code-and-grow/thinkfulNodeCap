@@ -369,7 +369,7 @@ function updateHistory(currHash) {
   window.location.hash = currHash;
 }
 // render page function
-function renderPage(response, html, hashStr) {
+function renderPage(response, firstName, html, hashStr) {
   updateHistory(hashStr);
   $('html body').animate({ scrollTop: 0 }, 'slow');
   $('title')
@@ -381,7 +381,7 @@ function renderPage(response, html, hashStr) {
               <span id="header-name">
                 <a href="#profile">
                   <img src="images/FreeVector-Chef-Hat-Icons40x27.jpg" alt="" width="38" aria-hidden="true">
-                  Hi, ${response.firstName}!
+                  Hi, ${firstName}!
                 </a>
               </span>
               <nav>
@@ -428,7 +428,8 @@ function showSearch() {
       allowedIng = [];
       excludedIng = [];
       recipes = [];
-      renderPage(response, searchFormHtml, 'search');
+      localStorage.setItem('firstName', response.firstName);
+      renderPage(response, localStorage.getItem('firstName'), searchFormHtml, 'search');
       $('.js-courses').html(`${renderChkboxInputs(courseList)}`);
       $('.js-allergies').html(`${renderChkboxInputs(allergyList)}`);
       tagsFromInput(allowedIng, 'included-tags-input');
@@ -463,27 +464,103 @@ function showProfile() {
     contentType: 'application/json',
     dataType: 'json',
     success: function(response) {
-      renderPage(response, showProfileHtml(response), 'profile');
+      renderPage(response, localStorage.getItem('firstName'), showProfileHtml(response), 'profile');
       deleteAccount();
     },
     error: function(error) { console.log(error) }
   });
 }
 // Add stars to rating display
-function starRating(target, ratingValue) {
-  const starTotal = 5;
-  const starPercentage = (ratingValue / starTotal) * 100;
-  const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
-  target.style.width = starPercentageRounded; 
+function starRating(target, id, ratingValue) {
+  let starIcons = [];
+  const starCount = 5;
+  for (let i = 1; i <= starCount; i++) {
+    const starIcon = document.createElement('i');
+    starIcon.classList.add(`far`, `fa-star`, `star-${id}`, `nr-${i}`);
+    starIcons.push(starIcon);
+  }
+  starIcons.forEach( icon => { target.appendChild(icon) } );
+  for (let i = 1; i <= ratingValue; i++) {
+    target.querySelector(`.nr-${i}`).classList.replace('far', 'fas');
+  }
 }
+// Enable user to set shopping list rating
+function setStarRating() {
+  let starsContainer = document.getElementsByClassName('stars-outer');
+  for (let item of starsContainer) {
+    let targetId = item.id.replace('rating-', '');
+    let icons = item.getElementsByClassName(`star-${targetId}`);
+    for (let icon of icons) {
+      icon.addEventListener('mouseenter', (e) => {
+        const target = e.currentTarget;
+        target.classList.add('js-star-hover');
+        if (target.classList.contains('far')) {
+          target.classList.replace('far', 'fas');
+          target.classList.add('unselected');
+        }
+        e.stopPropagation();
+      });
+      icon.addEventListener('mouseleave', (e) => {
+        const target = e.currentTarget;
+        target.classList.remove('js-star-hover');
+        if (target.classList.contains('unselected')) {
+          target.classList.replace('fas', 'far');
+          target.classList.remove('unselected');
+        }
+        e.stopPropagation();
+      });
+      icon.addEventListener('click', (e) => {
+        const starNumber = e.currentTarget.classList[3].replace('nr-', '');
+        let starValue = undefined;
+        switch (starNumber) {
+          case '1':
+            starValue = 1;
+            break;
+          case '2':
+            starValue = 2;
+            break;
+          case '3':
+            starValue = 3;
+            break;
+          case '4':
+            starValue = 4;;
+            break;
+          case '5':
+            starValue = 5;
+            break;
+          default:
+            starValue = 1;
+        }
+        $.ajax({
+          url: '/api/users/lists/update',
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${localStorage.token}`,
+          },
+          data: JSON.stringify({ 
+            list_id: targetId,
+            rating: starValue
+          }),
+          contentType: 'application/json',
+          dataType: 'json',
+          success: (response) => {
+            document.getElementById(`rating-${response.list_id}`).innerHTML = '';
+            starRating(document.getElementById(`rating-${response.list_id}`), response.list_id, response.rating);
+            setStarRating();
+          },
+          error: (error) => console.log(error)
+        });
+      });
+    }
+  }
+}
+
 // render lists html
 const showListsHtml = function(data) {
   return '<section id="saved-lists">' + 
     data.map( (list, index) => `<div class="saved-lists-item" id="${list._id}"  style="text-align: center;">
       <h3 class="list-item-h3"><img src="${list.image}"><a  class="js-show-list">${index + 1}. ${list.title}</a></h3>
-      <div class="stars-outer">
-        <div class="stars-inner"></div>
-      </div>
+      <div id="rating-${list._id}" class="stars-outer"></div>
       <p>Comments: ${list.comments.length} </p>
       <div style="text-align: center;">
         <button class="js-show-list">View</button>
@@ -506,7 +583,7 @@ function deleteList() {
       }),
       contentType: 'application/json',
       success: (response) => {
-        renderPage(response, showListsHtml(response.lists), 'lists');
+        renderPage(response, localStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
         deleteList();
         showList();;
       },
@@ -526,26 +603,23 @@ function showLists() {
     dataType: 'json',
     data: {},
     success: function(response) {
-      renderPage(response, showListsHtml(response.lists), 'lists');
-      console.log(response.lists);
+      renderPage(response, localStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
       response.lists.map(item => {
-        starRating(document.getElementById(item._id).children[1].childNodes[1], item.rating);
+        starRating(document.getElementById(`rating-${item._id}`), item._id, item.rating);
       });
       deleteList();
       showList();
+      setStarRating();
     },
     error: function(error) { console.log(error) }
   });
 }
 // render list item html
-const showListHtml = function(data) {
-  const list = data.list;
+const showListHtml = function(list) {
   return  `<div class="result" id="${list._id}">
             <div id="result-top">
               <img src="${list.image}" alt="Image of ${list.title}">
-              <div class="stars-outer">
-                <div class="stars-inner"></div>
-              </div>
+              <div id="rating-${list._id}" class="stars-outer"></div>
             </div>
             <div id="result-texts">
               <div id="ingredients">
@@ -619,8 +693,8 @@ function addComm() {
           list_id: list_id
         }),
         success: function(response) {
-          renderPage(response, showListHtml(response), response.list._id);
-          starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
+          renderPage(response, localStorage.getItem('firstName'), showListHtml(response), response.list._id);
+          starRating(document.getElementById(`rating-${response.list._id}`), response.list._id, response.list.rating);
           $('title')
             .empty()
             .append(response.list.title);
@@ -630,6 +704,7 @@ function addComm() {
           addComm();
           deleteComm();
           deleteList();
+          setStarRating();
         },
         error: function(error) { console.log(error) }
       });
@@ -655,8 +730,8 @@ function deleteComm() {
       }),
       contentType: 'application/json',
       success: (response) => {
-        renderPage(response, showListHtml(response), response.list._id);
-        starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
+        renderPage(response, localStorage.getItem('firstName'), showListHtml(response), response.list._id);
+        starRating(document.getElementById(`rating-${response.list._id}`), response.list._id, response.list.rating);
         $('title')
           .empty()
           .append(response.list.title);
@@ -666,10 +741,32 @@ function deleteComm() {
         addComm();
         deleteComm();
         deleteList();
+        setStarRating();
       },
       error: (error) => console.log(error)
     });
   });
+}
+function saveListData(response) {
+  localStorage.setItem(`list-${response._id}`, JSON.stringify(response));
+  
+  // const listData = JSON.parse(localStorage.getItem(`list-${response._id}`));
+  // console.log(listData);
+}
+function renderList(input) {
+  renderPage(input, localStorage.getItem('firstName'), showListHtml(input), input._id);
+  starRating(document.getElementById(`rating-${input._id}`), input._id, input.rating);
+  $('title')
+    .empty()
+    .append(input.title);
+  $('header h1')
+    .empty()
+    .append(input.title);
+  saveListData(input);
+  addComm();
+  deleteComm();
+  deleteList();
+  setStarRating();
 }
 function showList() { 
   const listItemBtn = $('#main').find('.js-show-list');
@@ -685,92 +782,49 @@ function showList() {
         list_id: itemId
       },
       contentType: 'application/json',
-      success: (response) => {
-        renderPage(response, showListHtml(response), response.list._id);
-        starRating(document.getElementById('result-top').children[1].children[0], response.list.rating);
-        $('title')
-          .empty()
-          .append(response.list.title);
-        $('header h1')
-          .empty()
-          .append(response.list.title);
-        addComm();
-        deleteComm();
-        deleteList();
-      },
+      success: (data) => renderList(data.list),
       error: (error) => console.log(error)
     });
-  });
-}
-function refreshItem() {
-  const listItemId = localStorage.hash;
-  $.ajax({
-    url: '/api/users/list/',
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.token}`
-    },
-    data: {
-      item_id: localStorage.hash
-    },
-    contentType: 'application/json',
-    success: (response) => {
-      // renderPage(response, showListHtml(response), response.userList[0]._id);
-      // $('title')
-      //   .empty()
-      //   .append(response.userList[0].title);
-      // $('header h1')
-      //   .empty()
-      //   .append(response.userList[0].title);
-      // addComm();
-    },
-    error: (error) => console.log(error)
   });
 }
 // log out
 function logOut() {
   savedHashes = [];
-  localStorage.removeItem('token');
-  localStorage.removeItem('hash');
-  localStorage.removeItem('yummly-id');
-  localStorage.removeItem('yummly-key');
+  localStorage.clear();
   window.location.replace('/');
 }
 // render page when user clicks refresh button
 window.onload = function(e) {
   localStorage.setItem('hash', window.location.hash.slice(1));
-  $.ajax({
-    url: '/api/users/' + localStorage.hash,
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.token}`
-    },
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function() {
-      switch (localStorage.hash) {
-        case 'search':
-          showSearch();
-          break;
-        case 'profile':
-          showProfile();
-          break;
-        case 'lists':
-          showLists();
-          break;
-        case localStorage.hash:
-          showList();
-          break;
-        // case '':
-        //   showProfile();
-        //   break;
-        // case localStorage.hash:
-        //   refreshItem();
-        //   break;
-      }
-    },
-    error: handleError
-  });
+  if(localStorage.getItem(`list-${localStorage.hash}`)) {
+    let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
+    console.log(listFromLocalStorage._id);
+   renderList(listFromLocalStorage);
+  } else {
+    $.ajax({
+      url: '/api/users/' + localStorage.hash,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function() {
+        switch (localStorage.hash) {
+          case 'search':
+            showSearch();
+            break;
+          case 'profile':
+            showProfile();
+            break;
+          case 'lists':
+            showLists();
+            break;
+        }
+      },
+      error: handleError
+    });
+  }
 }
 function renderPageFromHash() {
   localStorage.setItem('hash', window.location.hash.slice(1));
@@ -785,7 +839,8 @@ function renderPageFromHash() {
       showLists();
       break;
     case localStorage.hash:
-      showList();
+      let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
+      renderList(listFromLocalStorage);
       break;
   }
 }
@@ -1005,21 +1060,19 @@ function renderResult(result) {
                               <img class="card-image" src="${result.imageUrlsBySize[90]}" alt="Loading recipe image animation"  aria-hidden="true">
                               <h3>${result.recipeName}</h3>
                               <div class="result-info">
-                              <div class="stars-outer">
-                                <div class="${result.id} stars-inner"></div>
-                              </div>
+                                <div id="rating-${result.id}" class="stars-outer"></div>
                                 <p class="clock">${cookingTime}</p>
                                 <div class="clearfix">
                                   <h4 class="ingredients">Ingredients:</h4>
                                   <ul class="ingredients-list">${ingredientsList(result.ingredients)}</ul>
                                 </div>
+                                </div>
                               </div>
-                            </div>
-                          </a>`);
+                            </a>`);
   //console.log();
   //starRating(document.querySelector(`.${result.id}`), result.rating);
   setTimeout( () => {
-    starRating(document.querySelector(`.${result.id}`), result.rating);
+    starRating(document.querySelector(`#rating-${result.id}`), result.id, result.rating);
   }, 300); 
 }
 // Return ingredients list items
@@ -1066,7 +1119,6 @@ function displayResults(data) {
     // Open recipe in a lightbox after user click
     //showRecipeToUser();
     showRecipeToUser();
-    console.log(data);
     //starRating(document.querySelector(`.${recipeDetails.id}`), recipeDetails.rating)
   // No results from API
   } else {
@@ -1148,11 +1200,7 @@ function showRecipeToUser() {
     const contentHtml = `<p id="closeLightbox">X</p>
                           <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
                           <h2>${recipeDetails.name}</h2>
-                          <div id="star-rating">
-                            <div class="stars-outer">
-                              <div class="${recipeDetails.id} stars-inner"></div>
-                            </div>
-                          </div>
+                          <div id="rating-${recipeDetails.id}" class="stars-outer"></div>
                           <div id="lightbox-content-details">
                             <p class="clock">${recipeDetails.totalTime}</p>
                             <p class="courses"> ${checkCourse()}</p>
@@ -1189,24 +1237,23 @@ function showRecipeToUser() {
     // If lightbox exists
     if ($('#lightbox').length > 0) { 
       $('#lightbox-content').html(contentHtml);
-      const ratingContainer = $('#lightbox-content').find(`.${recipeDetails.id}`);
-      console.log(ratingContainer);
-      starRating(ratingContainer[0], recipeDetails.rating);
-      saveToLists();
       // Show lightbox window 
       $('#lightbox').show();
+      const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
+      console.log(ratingContainer[0]);
+      starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
+      saveToLists();
       // If lightbox does not exist
     } else { 
       //create HTML markup for lightbox window
-      const lightbox = 
-      `<div id="lightbox">
-        <div id="lightbox-content">${contentHtml}</div>	
-      </div>`;
+      const lightbox = `<div id="lightbox">
+                         <div id="lightbox-content">${contentHtml}</div>	
+                       </div>`;
       //insert lightbox HTML into page
       $('body').append(lightbox);
-      const ratingContainer = $('#lightbox-content').find(`.${recipeDetails.id}`);
+      const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
       console.log(ratingContainer[0]);
-      starRating(ratingContainer[0], recipeDetails.rating);
+      starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
       saveToLists();
     }
     // Click anywhere on the page to get rid of lightbox window
@@ -1233,7 +1280,6 @@ function searchSubmit() {
 
 function initClient() {
   if(!localStorage.token) {
-    $('title').append('Sign in or sign up!');
     $('#header-container header').append('<h1>DinnerList<br><span>Recipe to Shopping List converter</span></h1>');
     $('#main').append(`<div id="start-page">
                         <div>

@@ -218,6 +218,36 @@ router.post('/lists/add', jsonParser, jwtAuth, (req, res) => {
       .catch( err => res.status(500).json({ message: err.statusText }));
     });
 });
+// update list rating
+router.put('/lists/update', jsonParser, jwtAuth, (req, res) => {
+  List
+  .findById(req.body.list_id)
+  .then(list => {
+    list.rating = req.body.rating;
+    return list.save();
+  })
+  .then(list => {
+    let firstName;
+    User
+    .findOne({ _id: req.user.user_id })
+    .then( user => {
+      const listToUpdate = user.lists.find(function(list){
+        return list._id == req.body.list_id;
+      });
+      listToUpdate.rating = req.body.rating;
+      firstName = user.firstName;
+      return user.save();
+    })
+    .catch(err => console.log(err));
+    res.status(201).json({
+      message: 'Rating updated',
+      firstName: firstName,
+      list_id: list._id,
+      rating: list.rating
+    });
+  })
+  .catch(err => console.log(err))
+});
 // delete list item
 router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
   List
@@ -244,7 +274,6 @@ router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
       .then(user => {
         res.status(201).json({
           title: 'My saved shopping lists',
-          firstName: user.firstName,
           lists: user.lists
         });
       })
@@ -255,12 +284,13 @@ router.delete('/lists/delete', jsonParser, jwtAuth, (req, res) => {
 });
 // show list route
 router.get('/list', jwtAuth, (req, res) => {
-  List 
-  .findById({ _id: req.query.list_id })
-  .then(list => {
+  User 
+  .findById({ _id: req.user.user_id })
+  .then(user => {
+    const list = user.lists.filter( list => { return list._id == req.query.list_id; } );
     res.json({
       firstName: req.user.firstName,
-      list: list
+      list: list[0]
     });
   })
   .catch(err => res.json(err));
