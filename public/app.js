@@ -1,236 +1,121 @@
-// starting with lists predefined
+// definitions for Yummly API search request
 const courseList = [
   {
-    "id": "course-Main Dishes",
-    "name": "Main Dishes",
     "type": "course",
     "description": "Main Dishes",
-    "searchValue": "course^course-Main Dishes",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Main Dishes"
   },
   {
-    "id": "course-Desserts",
-    "name": "Desserts",
     "type": "course",
     "description": "Desserts",
-    "searchValue": "course^course-Desserts",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Desserts"
   },
   {
-    "id": "course-Side Dishes",
-    "name": "Side Dishes",
     "type": "course",
     "description": "Side Dishes",
-    "searchValue": "course^course-Side Dishes",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Side Dishes"
   },
   {
-    "id": "course-Appetizers",
-    "name": "Appetizers",
     "type": "course",
     "description": "Appetizers",
-    "searchValue": "course^course-Appetizers",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Appetizers"
   },
   {
-    "id": "course-Salads",
-    "name": "Salads",
     "type": "course",
     "description": "Salads",
-    "searchValue": "course^course-Salads",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Salads"
   },
   {
-    "id": "course-Breakfast and Brunch",
-    "name": "Breakfast and Brunch",
     "type": "course",
     "description": "Breakfast and Brunch",
-    "searchValue": "course^course-Breakfast and Brunch",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Breakfast and Brunch"
   },
   {
-    "id": "course-Breads",
-    "name": "Breads",
     "type": "course",
     "description": "Breads",
-    "searchValue": "course^course-Breads",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Breads"
   },
   {
-    "id": "course-Soups",
-    "name": "Soups",
     "type": "course",
     "description": "Soups",
-    "searchValue": "course^course-Soups",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Soups"
   },
   {
-    "id": "course-Beverages",
-    "name": "Beverages",
     "type": "course",
     "description": "Beverages",
-    "searchValue": "course^course-Beverages",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Beverages"
   },
   {
-    "id": "course-Condiments and Sauces",
-    "name": "Condiments and Sauces",
     "type": "course",
     "description": "Condiments and Sauces",
-    "searchValue": "course^course-Condiments and Sauces",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Condiments and Sauces"
   },
   {
-    "id": "course-Cocktails",
-    "name": "Cocktails",
     "type": "course",
     "description": "Cocktails",
-    "searchValue": "course^course-Cocktails",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Cocktails"
   },
   {
-    "id": "course-Snacks",
-    "name": "Snacks",
     "type": "course",
     "description": "Snacks",
-    "searchValue": "course^course-Snacks",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Snacks"
   },
   {
-    "id": "course-Lunch",
-    "name": "Lunch",
     "type": "course",
     "description": "Lunch",
-    "searchValue": "course^course-Lunch",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "searchValue": "course^course-Lunch"
   }
 ];
 const allergyList = [
   {
-    "id": "393",
     "shortDescription": "Gluten-Free",
-    "longDescription": "Gluten-Free",
     "searchValue": "393^Gluten-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "394",
     "shortDescription": "Peanut-Free",
-    "longDescription": "Peanut-Free",
     "searchValue": "394^Peanut-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "398",
     "shortDescription": "Seafood-Free",
-    "longDescription": "Seafood-Free",
     "searchValue": "398^Seafood-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "399",
     "shortDescription": "Sesame-Free",
-    "longDescription": "Sesame-Free",
     "searchValue": "399^Sesame-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "400",
     "shortDescription": "Soy-Free",
-    "longDescription": "Soy-Free",
     "searchValue": "400^Soy-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "396",
     "shortDescription": "Dairy-Free",
-    "longDescription": "Dairy-Free",
     "searchValue": "396^Dairy-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "397",
     "shortDescription": "Egg-Free",
-    "longDescription": "Egg-Free",
     "searchValue": "397^Egg-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "401",
     "shortDescription": "Sulfite-Free",
-    "longDescription": "Sulfite-Free",
     "searchValue": "401^Sulfite-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "395",
     "shortDescription": "Tree Nut-Free",
-    "longDescription": "Tree Nut-Free",
     "searchValue": "395^Tree Nut-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   },
   {
-    "id": "392",
     "shortDescription": "Wheat-Free",
-    "longDescription": "Wheat-Free",
     "searchValue": "392^Wheat-Free",
-    "type": "allergy",
-    "localesAvailableIn": [
-      "en-US"
-    ]
+    "type": "allergy"
   }
 ];
 let courseVal = [];
@@ -238,42 +123,32 @@ let allergyVal = [];
 let allowedIng = [];
 let excludedIng = [];
 let recipes = [];
-function getAjax(urlStr, scsFnc) {
-  $.ajax({
-    url: urlStr,
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.token}`
-    },
-    contentType: 'application/json',
-    dataType: 'json',
-    success: scsFnc,
-    error: function(error) { return error }
-  });
-}
-// save token and redirect on successful login
+// save credentials and redirect on successful login
 function handleLogin(data) {
-  localStorage.setItem('token', data.authToken);
-  localStorage.setItem('yummly-id', data.YUMMLY_ID);
-  localStorage.setItem('yummly-key', data.YUMMLY_KEY);
+  sessionStorage.setItem('token', data.authToken);
+  sessionStorage.setItem('yummly-id', data.YUMMLY_ID);
+  sessionStorage.setItem('yummly-key', data.YUMMLY_KEY);
   showSearch();
 }
-
 // login page error reporting
-function handleError(error) {
+function handleLoginError(error) {
   const response = error.responseJSON;
-  
+  // what is shown to user when error occurs
   if (error.status === 401 ) {
-    $('.js-login-err').html(`<h4>Not found. Please check entered email and password.</h4>`)
-                      .attr('aria-hidden', 'false');
+    $('.js-login-err')
+      .html(`<h4>Not found. Please check entered email and password.</h4>`)
+      .attr('aria-hidden', 'false');
   } else if (response.location === 'username') {
-    $('.js-create-account-err').html(`<h4>${response.message}. If you have an account, you can sign in using the 'Log in' form.</h4>`)
-                               .attr('aria-hidden', 'false');
+    $('.js-create-account-err')
+      .html(`<h4>${response.message}. If you have an account, you can sign in using the 'Log in' form.</h4>`)
+      .attr('aria-hidden', 'false');
   } else if (response.location === 'password') {
-    $('.js-create-account-err').html(`<h4>Please check entered ${response.location}. It ${response.message.toLowerCase()}.</h4>`)
-                               .attr('aria-hidden', 'false');
+    $('.js-create-account-err')
+      .html(`<h4>Please check entered ${response.location}. It ${response.message.toLowerCase()}.</h4>`)
+      .attr('aria-hidden', 'false');
   }
 }
+// ajax login request to server
 function loginCall(username, password) {
   $.ajax({
     url: '/api/auth/login',
@@ -285,10 +160,10 @@ function loginCall(username, password) {
     contentType: 'application/json',
     dataType: 'json',
     success: handleLogin,
-    error: handleError
+    error: handleLoginError
   });
 }
-// log in user
+// send login data
 function loginSubmit() {
   const loginForm = $('#js-login-form');
   // submit credentials
@@ -334,25 +209,26 @@ function createAccountSubmit() {
         contentType: 'application/json',
         dataType: 'json',
         success: function(response) {
+          // login the new user
           loginCall(email, password);
         },
         error: (error) => console.log(error)
       });
-    // otherwise alert user that passwords don't match
+    // alert user that passwords don't match
     } else {
       $('.js-create-account-err').html(`<h4>Entered passwords do not match.</h4>`)
                                  .attr('aria-hidden', 'false');
     }
   });
 }
-// delete user
+// delete user from db
 function deleteAccount() {
   $('#js-delete-account').on('click', (e) => {
     $.ajax({
       url: '/api/users/delete',
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       },
       contentType: 'application/json',
       success: () => {
@@ -362,7 +238,7 @@ function deleteAccount() {
     });
   })
 }
-// save user page history and set hash
+// save visited pages hashes for history 
 let savedHashes = [];
 function updateHistory(currHash) {
   savedHashes.push(window.location.hash.split(1));
@@ -371,7 +247,6 @@ function updateHistory(currHash) {
 // render page function
 function renderPage(response, firstName, html, hashStr) {
   updateHistory(hashStr);
-  $('html body').animate({ scrollTop: 0 }, 'slow');
   $('title')
     .empty()
     .append(response.title);
@@ -397,6 +272,7 @@ function renderPage(response, firstName, html, hashStr) {
   $('#main')
     .empty()
     .append(html);
+  $(window).animate({ scrollTop: 0 }, 'slow');
 }
 // render search html
 const searchFormHtml = `<form action="" class="js-search-form search-form">
@@ -418,7 +294,7 @@ function showSearch() {
     url: '/api/users/search/',
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${localStorage.token}`
+      'Authorization': `Bearer ${sessionStorage.token}`
     },
     contentType: 'application/json',
     dataType: 'json',
@@ -428,8 +304,8 @@ function showSearch() {
       allowedIng = [];
       excludedIng = [];
       recipes = [];
-      localStorage.setItem('firstName', response.firstName);
-      renderPage(response, localStorage.getItem('firstName'), searchFormHtml, 'search');
+      sessionStorage.setItem('firstName', response.firstName);
+      renderPage(response, sessionStorage.getItem('firstName'), searchFormHtml, 'search');
       $('.js-courses').html(`${renderChkboxInputs(courseList)}`);
       $('.js-allergies').html(`${renderChkboxInputs(allergyList)}`);
       tagsFromInput(allowedIng, 'included-tags-input');
@@ -459,12 +335,12 @@ function showProfile() {
     url: '/api/users/profile/',
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${localStorage.token}`
+      'Authorization': `Bearer ${sessionStorage.token}`
     },
     contentType: 'application/json',
     dataType: 'json',
     success: function(response) {
-      renderPage(response, localStorage.getItem('firstName'), showProfileHtml(response), 'profile');
+      renderPage(response, sessionStorage.getItem('firstName'), showProfileHtml(response), 'profile');
       deleteAccount();
     },
     error: function(error) { console.log(error) }
@@ -494,6 +370,7 @@ function setStarRating() {
     let targetId = item.id.replace('rating-', '');
     let icons = item.getElementsByClassName(`star-${targetId}`);
     for (let icon of icons) {
+      // mouse cursor over star icon 
       icon.addEventListener('mouseenter', (e) => {
         const target = e.currentTarget;
         target.classList.add('js-star-hover');
@@ -501,8 +378,8 @@ function setStarRating() {
           target.classList.replace('far', 'fas');
           target.classList.add('unselected');
         }
-        e.stopPropagation();
       });
+      // mouse cursor left star icon 
       icon.addEventListener('mouseleave', (e) => {
         const target = e.currentTarget;
         target.classList.remove('js-star-hover');
@@ -510,35 +387,17 @@ function setStarRating() {
           target.classList.replace('fas', 'far');
           target.classList.remove('unselected');
         }
-        e.stopPropagation();
       });
+      // click the star icon
       icon.addEventListener('click', (e) => {
         const starNumber = e.currentTarget.classList[3].replace('nr-', '');
-        let starValue = undefined;
-        switch (starNumber) {
-          case '1':
-            starValue = 1;
-            break;
-          case '2':
-            starValue = 2;
-            break;
-          case '3':
-            starValue = 3;
-            break;
-          case '4':
-            starValue = 4;;
-            break;
-          case '5':
-            starValue = 5;
-            break;
-          default:
-            starValue = 1;
-        }
+        let starValue = parseInt(starNumber);
+        // save the new rating value to db
         $.ajax({
           url: '/api/users/lists/update',
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${localStorage.token}`,
+            'Authorization': `Bearer ${sessionStorage.token}`,
           },
           data: JSON.stringify({ 
             list_id: targetId,
@@ -547,8 +406,8 @@ function setStarRating() {
           contentType: 'application/json',
           dataType: 'json',
           success: (response) => {
-            document.getElementById(`rating-${response.list_id}`).innerHTML = '';
             starRating(document.getElementById(`rating-${response.list_id}`), response.list_id, response.rating);
+            // re-initialize the star icon event listeners
             setStarRating();
           },
           error: (error) => console.log(error)
@@ -557,7 +416,6 @@ function setStarRating() {
     }
   }
 }
-
 // render lists html
 const showListsHtml = function(data) {
   return '<section id="saved-lists">' + 
@@ -572,6 +430,7 @@ const showListsHtml = function(data) {
     </div>`).join('') + 
     '</section>';
 };
+// delete list from db
 function deleteList() {
   $('.js-delete-list').on('click', function(e) {
     const list_id = $(e.currentTarget).attr('id');
@@ -579,14 +438,14 @@ function deleteList() {
       url: '/api/users/lists/delete',
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       },
       data: JSON.stringify({
         list_id: list_id
       }),
       contentType: 'application/json',
       success: (response) => {
-        renderPage(response, localStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
+        renderPage(response, sessionStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
         deleteList();
         showList();;
       },
@@ -600,13 +459,13 @@ function showLists() {
     url: '/api/users/lists/',
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${localStorage.token}`
+      'Authorization': `Bearer ${sessionStorage.token}`
     },
     contentType: 'application/json',
     dataType: 'json',
     data: {},
     success: function(response) {
-      renderPage(response, localStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
+      renderPage(response, sessionStorage.getItem('firstName'), showListsHtml(response.lists), 'lists');
       response.lists.map(item => {
         starRating(document.getElementById(`rating-${item._id}`), item._id, item.rating);
       });
@@ -686,7 +545,7 @@ function addComm() {
         url: '/api/users/comments/add',
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.token}`
+          'Authorization': `Bearer ${sessionStorage.token}`
         },
         contentType: 'application/json',
         dataType: 'json',
@@ -696,7 +555,7 @@ function addComm() {
           list_id: list_id
         }),
         success: function(response) {
-          renderPage(response, localStorage.getItem('firstName'), showListHtml(response), response.list._id);
+          renderPage(response, sessionStorage.getItem('firstName'), showListHtml(response), response.list._id);
           starRating(document.getElementById(`rating-${response.list._id}`), response.list._id, response.list.rating);
           $('title')
             .empty()
@@ -715,6 +574,7 @@ function addComm() {
     }
   });
 }
+// delete comment 
 function deleteComm() {
   $('.js-delete-comment').on('click', function(e) {
     const listId = $('main > div').attr('id');
@@ -724,7 +584,7 @@ function deleteComm() {
       url: '/api/users/comments/delete',
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       },
       data: JSON.stringify({
         title: listTitle,
@@ -733,7 +593,7 @@ function deleteComm() {
       }),
       contentType: 'application/json',
       success: (response) => {
-        renderPage(response, localStorage.getItem('firstName'), showListHtml(response), response.list._id);
+        renderPage(response, sessionStorage.getItem('firstName'), showListHtml(response), response.list._id);
         starRating(document.getElementById(`rating-${response.list._id}`), response.list._id, response.list.rating);
         $('title')
           .empty()
@@ -750,14 +610,13 @@ function deleteComm() {
     });
   });
 }
+// save list data to local storage
 function saveListData(response) {
-  localStorage.setItem(`list-${response._id}`, JSON.stringify(response));
-  
-  // const listData = JSON.parse(localStorage.getItem(`list-${response._id}`));
-  // console.log(listData);
+  sessionStorage.setItem(`list-${response._id}`, JSON.stringify(response));
 }
+// render list html
 function renderList(input) {
-  renderPage(input, localStorage.getItem('firstName'), showListHtml(input), input._id);
+  renderPage(input, sessionStorage.getItem('firstName'), showListHtml(input), input._id);
   starRating(document.getElementById(`rating-${input._id}`), input._id, input.rating);
   $('title')
     .empty()
@@ -771,6 +630,7 @@ function renderList(input) {
   deleteList();
   setStarRating();
 }
+// show list to user
 function showList() { 
   const listItemBtn = $('#main').find('.js-show-list');
   listItemBtn.on('click', function(e){
@@ -779,11 +639,9 @@ function showList() {
       url: '/api/users/list/',
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       },
-      data: {
-        list_id: itemId
-      },
+      data: { list_id: itemId },
       contentType: 'application/json',
       success: (data) => renderList(data.list),
       error: (error) => console.log(error)
@@ -793,51 +651,52 @@ function showList() {
 // log out
 function logOut() {
   savedHashes = [];
-  localStorage.clear();
+  sessionStorage.clear();
   window.location.replace('/');
 }
+// re-create search results html
 function reloadSearchResults() {
   $('header')
-      .empty()
-      .append(`<div id="top-bar">
-                <span id="header-name">
-                  <a href="#profile">
-                    <img src="images/FreeVector-Chef-Hat-Icons40x27.jpg" alt="" width="38" aria-hidden="true">
-                    Hi, ${localStorage.firstName}!
-                  </a>
-                </span>
-                <nav>
-                  <ul class="top-nav">
-                    <a href="#search"><li>Search</li></a>
-                    <a href="#lists"><li>Saved lists</li></a>
-                    <a href="#profile"><li>My profile</li></a>
-                    <a onclick='logOut()'><li>Log out</li></a>
-                  </ul>
-                </nav>
-              </div>
-              <h1 id="logged-in-h1">Search results</h1>`);
-    let apiDataFromLocalStorage = JSON.parse(localStorage.getItem('dataFromAPI'));  
-    displayResults(apiDataFromLocalStorage);
+    .empty()
+    .append(`<div id="top-bar">
+              <span id="header-name">
+                <a href="#profile">
+                  <img src="images/FreeVector-Chef-Hat-Icons40x27.jpg" alt="" width="38" aria-hidden="true">
+                  Hi, ${sessionStorage.firstName}!
+                </a>
+              </span>
+              <nav>
+                <ul class="top-nav">
+                  <a href="#search"><li>Search</li></a>
+                  <a href="#lists"><li>Saved lists</li></a>
+                  <a href="#profile"><li>My profile</li></a>
+                  <a onclick='logOut()'><li>Log out</li></a>
+                </ul>
+              </nav>
+            </div>
+            <h1 id="logged-in-h1">Search results</h1>`);
+  let apiDataFromsessionStorage = JSON.parse(sessionStorage.getItem('dataFromAPI'));  
+  displaySearchResults(apiDataFromsessionStorage);
 }
 // render page when user clicks refresh button
 window.onload = function(e) {
-  localStorage.setItem('hash', window.location.hash.slice(1));
-  if(localStorage.getItem(`list-${localStorage.hash}`)) {
-    let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
-    renderList(listFromLocalStorage);
-  } else if (localStorage.hash == 'search-results') {
+  sessionStorage.setItem('hash', window.location.hash.slice(1));
+  if(sessionStorage.getItem(`list-${sessionStorage.hash}`)) {
+    let listFromsessionStorage = JSON.parse(sessionStorage.getItem(`list-${sessionStorage.hash}`));
+    renderList(listFromsessionStorage);
+  } else if (sessionStorage.hash == 'search-results') {
     reloadSearchResults();
   } else {
     $.ajax({
-      url: '/api/users/' + localStorage.hash,
+      url: '/api/users/' + sessionStorage.hash,
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       },
       contentType: 'application/json',
       dataType: 'json',
       success: function() {
-        switch (localStorage.hash) {
+        switch (sessionStorage.hash) {
           case 'search':
             showSearch();
             break;
@@ -849,13 +708,14 @@ window.onload = function(e) {
             break;
         }
       },
-      error: handleError
+      error: error => console.log(error)
     });
   }
 }
+// render page when user clicks page links or back/forward button
 function renderPageFromHash() {
-  localStorage.setItem('hash', window.location.hash.slice(1));
-  switch (localStorage.hash) {
+  sessionStorage.setItem('hash', window.location.hash.slice(1));
+  switch (sessionStorage.hash) {
     case 'search':
       showSearch();
       break;
@@ -868,24 +728,21 @@ function renderPageFromHash() {
     case 'search-results':
       reloadSearchResults();
       break;
-    case localStorage.hash:
-      let listFromLocalStorage = JSON.parse(localStorage.getItem(`list-${localStorage.hash}`));
-      renderList(listFromLocalStorage);
+    case sessionStorage.hash:
+      let listFromsessionStorage = JSON.parse(sessionStorage.getItem(`list-${sessionStorage.hash}`));
+      renderList(listFromsessionStorage);
       break;
   }
 }
-// render page when user clicks page links or back button
+// what happens on window hash change
 window.onhashchange = function() {
-  console.log(localStorage.hash);
-  if (localStorage.token) {
+  if (sessionStorage.token) {
     renderPageFromHash();
   } else {
     logOut();
   }
 }
-// Yummly API integration 
-
-// render checkboxes
+// render checkboxes in search form
 function renderChkboxInputs(inputArr) {
 	let result = '';
   for (let i = 0; i < inputArr.length; i++) {
@@ -907,16 +764,13 @@ function renderChkboxInputs(inputArr) {
   }
   return result;
 }
-
-// Get checked values 
+// get checked values from search form
 function getCheckedValues (targetClass, isAllergy) {
   // Declare variables to store checked item data
   let targetChecked = targetClass + ':checked';
-  //let checkedNamesArray = [];
   let checkedArray = [];
-  // Look for checked values
+  // find checked values
   function lookForCheckedValues() {
-  // Loop through checked items and add them to array
     $(targetChecked).each(function() {
       checkedArray.push($(this).val());
     });
@@ -929,15 +783,14 @@ function getCheckedValues (targetClass, isAllergy) {
   }
   lookForCheckedValues();
 }
-// get tags from inputs
+// get tags from search form inputs
 function tagsFromInput(tags, input) {
   [].forEach.call(document.getElementsByClassName(input), function (el) {
+    // prepare inputs
     let hiddenInput = document.createElement('input'),
         mainInput = document.createElement('input');
-
     hiddenInput.setAttribute('type', 'hidden');
     hiddenInput.setAttribute('name', el.getAttribute('data-name'));
-
     mainInput.setAttribute('type', 'text');
     mainInput.classList.add('main-input');
     mainInput.addEventListener('input', function () {
@@ -952,8 +805,7 @@ function tagsFromInput(tags, input) {
         return tags;
       }
     });
-
-    // Enable user to enter tags with Comma or Enter keys
+    // enable user to enter tags with Comma or Enter keys
     mainInput.addEventListener('keydown', function (e) {
       let keyCode = e.which || e.keyCode;
       if (keyCode === 13 || keyCode === 188) {
@@ -961,11 +813,10 @@ function tagsFromInput(tags, input) {
       	userEntered();
       } 
     });
-
+    // validate input and add tag to query list
     function userEntered() {
       let emptyRegExp = /^ +$/;
       let enteredTag = mainInput.value;
-
       if (emptyRegExp.test(enteredTag)) {
         mainInput.value = '';
       } else if ( enteredTag.length > 0 ) {
@@ -973,8 +824,8 @@ function tagsFromInput(tags, input) {
         mainInput.value = '';
         return tags;
       }
-
     }
+    // delete tag with Backspace
     mainInput.addEventListener('keydown', function (e) {
       let keyCode = e.which || e.keyCode;
       if (keyCode === 8 && mainInput.value.length === 0 && tags.length > 0) {
@@ -984,37 +835,32 @@ function tagsFromInput(tags, input) {
 
     el.appendChild(mainInput);
     el.appendChild(hiddenInput);
-
+    // create tag
     function addTag (text) {
       let tag = {
           text: text,
           element: document.createElement('span'),
       };
-
       tag.element.classList.add('tag');
       tag.element.textContent = tag.text;
-
       let closeBtn = document.createElement('span');
       closeBtn.classList.add('close');
       closeBtn.addEventListener('click', function () {
           removeTag(tags.indexOf(tag));
       });
       tag.element.appendChild(closeBtn);
-
       tags.push(tag);
-
       el.insertBefore(tag.element, mainInput);
-
       refreshTags();
     }
-
+    // remove tag
     function removeTag (index) {
       let tag = tags[index];
       tags.splice(index, 1);
       el.removeChild(tag.element);
       refreshTags();
     }
-
+    // update tags
     function refreshTags () {
       let tagsList = [];
       tags.forEach(function (t) {
@@ -1022,21 +868,20 @@ function tagsFromInput(tags, input) {
       });
       hiddenInput.value = tagsList.join(',');
     }
-
+    // prepare tag for api call
     function filterTag (tag) {
       return tag.replace(/[^\w -]/g, '').trim().replace(/\W+/g, '+');
     }
   });
 }
 
-// Search recipes API call 
+// search recipes API call 
 function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
-  // Set up API call settings
   recipes = [];
   const settings = {
     url: 'https://api.yummly.com/v1/api/recipes?_app_id=' + 
-      localStorage.getItem('yummly-id') + '&_app_key=' + 
-      localStorage.getItem('yummly-key'),
+      sessionStorage.getItem('yummly-id') + '&_app_key=' + 
+      sessionStorage.getItem('yummly-key'),
     data: {
       q: '',
     	allowedCourse: courseVal,
@@ -1047,19 +892,18 @@ function searchAPI(courseVal, allergyVal, allowedIng, excludedIng) {
     },
     dataType: 'jsonp',
     type: 'GET',
-    success: displayResults 
+    success: displaySearchResults 
   };
   $.ajax(settings);
 }
-// Get recipe data from API 
+// get recipe data from API 
 function getRecipeData(recipeId, callback) {
-	// Set up recipe API call settings
   const settings = {
     url: 'https://api.yummly.com/v1/api/recipe/' + 
       recipeId + '?_app_id=' + 
-      localStorage.getItem('yummly-id') + 
+      sessionStorage.getItem('yummly-id') + 
       '&_app_key=' + 
-      localStorage.getItem('yummly-key'),
+      sessionStorage.getItem('yummly-key'),
     recipe: {},
     dataType: 'jsonp',
     type: 'GET',
@@ -1067,43 +911,42 @@ function getRecipeData(recipeId, callback) {
   };
   $.ajax(settings);
 }
-
-// Add recipe data to array 
+// add recipe data to array 
 function saveRecipe(recipeData) {
   recipes.push({recipeData});
 }
-// Create result item
+// create result item
 function renderResult(result) {
-  // Save recipe results to array
+  // save recipe results to array
   getRecipeData(result.id, saveRecipe);
-  // Convert cooking time from seconds to hours and minutes
+  // convert cooking time from seconds to hours and minutes
   let h = Math.floor(result.totalTimeInSeconds / 3600);
   let m = Math.floor(result.totalTimeInSeconds % 3600 / 60);
   let hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours ") : "";
   let mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes") : "";
   let cookingTime =  hDisplay + mDisplay; 
-  // Append recipe to DOM
-  $('#js-results').append(`<a class="js-result clearfix" id="${result.id}">
-                            <div>
-                              <img class="card-image" src="${result.imageUrlsBySize[90]}" alt="Loading recipe image animation"  aria-hidden="true">
-                              <h3>${result.recipeName}</h3>
-                              <div class="result-info">
-                                <div id="rating-${result.id}" class="stars-outer"></div>
-                                <p class="clock">${cookingTime}</p>
-                                <div class="clearfix">
-                                  <h4 class="ingredients">Ingredients:</h4>
-                                  <ul class="ingredients-list">${ingredientsList(result.ingredients)}</ul>
-                                </div>
-                                </div>
-                              </div>
-                            </a>`);
-  //console.log();
-  //starRating(document.querySelector(`.${result.id}`), result.rating);
+  // append recipe to DOM
+  $('#js-results').append(
+    `<a class="js-result clearfix" id="${result.id}">
+      <div>
+        <img class="card-image" src="${result.imageUrlsBySize[90]}" alt="Loading recipe image animation"  aria-hidden="true">
+        <h3>${result.recipeName}</h3>
+        <div class="result-info">
+          <div id="rating-${result.id}" class="stars-outer"></div>
+          <p class="clock">${cookingTime}</p>
+          <div class="clearfix">
+            <h4 class="ingredients">Ingredients:</h4>
+            <ul class="ingredients-list">${ingredientsList(result.ingredients)}</ul>
+          </div>
+          </div>
+        </div>
+      </a>`);
+  // add star rating
   setTimeout( () => {
     starRating(document.querySelector(`#rating-${result.id}`), result.id, result.rating);
   }, 300); 
 }
-// Return ingredients list items
+// return ingredients list items
 function ingredientsList(ingredientArray) {
   let resultIngList = '';
   for (let i = 0; i < ingredientArray.length; i++) {
@@ -1113,12 +956,11 @@ function ingredientsList(ingredientArray) {
   }
   return resultIngList;
 }
-
-// Display the results to user 
-function displayResults(data) {
+// display search results to user 
+function displaySearchResults(data) {
   window.location.hash = 'search-results';
-  localStorage.setItem('dataFromAPI', JSON.stringify(data));
-  $('html body').animate({ scrollTop: 0 }, 'fast');
+  sessionStorage.setItem('dataFromAPI', JSON.stringify(data));
+  $(window).animate({ scrollTop: 0 }, 'fast');
   $('title')
     .empty()
     .append('Search results');
@@ -1132,36 +974,27 @@ function displayResults(data) {
   if (data.matches.length > 0) {
     // Loop through the results and render them 
     data.matches.map( (item, index) => renderResult(item) );
-    $('main').append(`<div>
-                              <h4>
-                                <a href="#search">Start a new search</a>
-                              </h4>
-                            </div>`);
-    //Add better resolution images from recipes array
-    // setTimeout(function() {
-    //   for (let i = 0; i < recipes.length; i++) {
-    //     $('#js-results').find(`#${recipes[i].recipeData.id} img.card-image`)
-    //     .attr('src', recipes[i].recipeData.images[0].hostedLargeUrl)
-    //     .attr('alt', recipes[i].recipeData.name);
-    //   }
-    // }, 2200);
-    // Open recipe in a lightbox after user click
-    //showRecipeToUser();
+    $('main').append(
+      `<div>
+        <h4>
+          <a href="#search">Start a new search</a>
+        </h4>
+      </div>`);
+    // init recipe details event listener
     showRecipeToUser();
-    //starRating(document.querySelector(`.${recipeDetails.id}`), recipeDetails.rating)
-  // No results from API
+  // no results from API
   } else {
-    $('main').append(`<div class="back-link clearfix">
-                                <img class="card-image" src="images/FreeVector-Sad-Chef-Hat-Icons200x135.jpg" alt="Sad emoticon"  aria-hidden="true">
-                                <h3>No results found.</h3>
-                                <h4>
-                                  <a href="#search">Start a new search</a>
-                                </h4>
-                              </div>`);
+    $('main').append(
+      `<div class="back-link clearfix">
+        <img class="card-image" src="images/FreeVector-Sad-Chef-Hat-Icons200x135.jpg" alt="Sad emoticon"  aria-hidden="true">
+        <h3>No results found.</h3>
+        <h4>
+          <a href="#search">Start a new search</a>
+        </h4>
+      </div>`);
   }
 }
-
-// Display the recipe user selects 
+// display selected recipe details
 function showRecipeToUser() {
   $('.js-result').on('click', function(event) {
     event.preventDefault();
@@ -1181,7 +1014,7 @@ function showRecipeToUser() {
       yummlyLogo: recipeClicked.recipeData.attribution.logo,
       yummlyUrl: recipeClicked.recipeData.attribution.url
     }
-    // Does the result have courses defined?
+    // does the result have courses defined?
     function checkCourse() {
       if (recipeDetails.course) {
         recipeDetailsData = recipeDetails.course.join(', ');
@@ -1190,7 +1023,7 @@ function showRecipeToUser() {
         return '-';
       }
     }
-    // Does the result have yield defined?
+    // does the result have yield defined?
     function checkYield() {
       if (recipeDetails.servings) {
         return recipeDetails.servings;
@@ -1198,6 +1031,7 @@ function showRecipeToUser() {
         return '-';
       }
     }
+    // save list to user collection event listener
     function saveToLists() { 
       const saveListBtn = $('#lightbox-content').find('#js-save-list');
       saveListBtn.on('click', function(e){
@@ -1205,12 +1039,12 @@ function showRecipeToUser() {
           url: '/api/users/lists/add',
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${localStorage.token}`,
+            'Authorization': `Bearer ${sessionStorage.token}`,
           },
           data: JSON.stringify({ 
             title: recipeDetails.name,
             ingredients: recipeDetails.ingredients,
-            rating: recipeDetails.rating,
+            rating: 0,
             yield: recipeDetails.yield,
             image: recipeDetails.image,
             sourceUrl: recipeDetails.sourceUrl,
@@ -1225,74 +1059,71 @@ function showRecipeToUser() {
         });
       });
     }
-    // Lightbox recipe details html
-    const contentHtml = `<p id="closeLightbox">X</p>
-                          <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
-                          <h2>${recipeDetails.name}</h2>
-                          <div id="rating-${recipeDetails.id}" class="stars-outer"></div>
-                          <div id="lightbox-content-details">
-                            <p class="clock">${recipeDetails.totalTime}</p>
-                            <p class="courses"> ${checkCourse()}</p>
-                            <p class="yield">${checkYield()}</p>
-                          </div>
-                          <span class="ingredients">Ingredients:</span>
-                          <ol>
-                            ${ingredientsList(recipeDetails.ingredients)}
-                          </ol>
-                          <p class="source">
-                            For detailed instructions visit 
-                            <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed instructions visit ${recipeDetails.sourceName}.">
-                              ${recipeDetails.sourceName}
-                            </a>.
-                          </p>
-                          <p>
-                          <button id="js-save-list">Save to my lists</button>
-                            <div class="yummly-ref">
-                              <a href="${recipeDetails.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
-                                <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
-                                <br>
-                                POWERED RECIPE
-                              </a>
-                            </div>
-                            <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
-                              <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${recipeDetails.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
-                                <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
-                                <br>
-                                SHARE WITH FRIENDS
-                              </a>
-                              
-                            </div>
-                          </p>`;
-    // If lightbox exists
+    // recipe details lightbox html
+    const contentHtml = 
+      `<p id="closeLightbox">X</p>
+        <img src="${recipeDetails.image}" alt="${recipeDetails.name}"  aria-hidden="true">
+        <h2>${recipeDetails.name}</h2>
+        <div id="rating-${recipeDetails.id}" class="stars-outer"></div>
+        <div id="lightbox-content-details">
+          <p class="clock">${recipeDetails.totalTime}</p>
+          <p class="courses"> ${checkCourse()}</p>
+          <p class="yield">${checkYield()}</p>
+        </div>
+        <span class="ingredients">Ingredients:</span>
+        <ol>
+          ${ingredientsList(recipeDetails.ingredients)}
+        </ol>
+        <p class="source">
+          For detailed instructions visit 
+          <a href="${recipeDetails.sourceUrl}" target="_blank" aria-label="For detailed instructions visit ${recipeDetails.sourceName}.">
+            ${recipeDetails.sourceName}
+          </a>.
+        </p>
+        <p>
+        <button id="js-save-list">Save to my lists</button>
+          <div class="yummly-ref">
+            <a href="${recipeDetails.yummlyUrl}" target="_blank" aria-label="Link to selected recipe Yummly page">
+              <img id="yummly-logo" src="${recipeDetails.yummlyLogo}" alt="Link to selected recipe Yummly page">
+              <br>
+              POWERED RECIPE
+            </a>
+          </div>
+          <div class="fb-share-button" data-href="${recipeDetails.yummlyUrl}" data-layout="button" data-size="large" data-mobile-iframe="true">
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${recipeDetails.yummlyUrl}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+              <img src="images/flogo-RGB-HEX-Blk-58.svg" alt="Share on facebook">
+              <br>
+              SHARE WITH FRIENDS
+            </a>
+            
+          </div>
+        </p>`;
+    // if lightbox exists
     if ($('#lightbox').length > 0) { 
       $('#lightbox-content').html(contentHtml);
-      // Show lightbox window 
+      // show lightbox window 
       $('#lightbox').show();
       const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
       starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
       saveToLists();
-      // If lightbox does not exist
+    // if lightbox does not exist
     } else { 
-      //create HTML markup for lightbox window
+      // create HTML markup for lightbox window
       const lightbox = `<div id="lightbox">
                          <div id="lightbox-content">${contentHtml}</div>	
                        </div>`;
-      //insert lightbox HTML into page
       $('body').append(lightbox);
       const ratingContainer = $('#lightbox-content').find(`#rating-${recipeDetails.id}`);
       starRating(ratingContainer[0], recipeDetails.id, recipeDetails.rating);
       saveToLists();
     }
-    // Click anywhere on the page to get rid of lightbox window
+    // click X to close lightbox
     $('#closeLightbox').on('click', function() {
       $('#lightbox-content').empty();
       $('#lightbox').hide();
     });
   });
-
-
 }
-
 // search form submit event listener
 function searchSubmit() {
   $('.js-search-form').on('submit', function(event) {
@@ -1304,34 +1135,35 @@ function searchSubmit() {
     searchAPI(courseVal, allergyVal, allowedIng, excludedIng);
   });
 }
-
+// initialize app and render login page
 function initClient() {
-  if(!localStorage.token) {
+  if(!sessionStorage.token) {
     $('#header-container header').append('<h1>DinnerList<br><span>Recipe to Shopping List converter</span></h1>');
-    $('#main').append(`<div id="start-page">
-                        <div>
-                          <h2>Sign in</h2>
-                          <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
-                          <form action="" id="js-login-form" class="login-form">
-                            <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Registered email address" required>
-                            <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
-                            <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
-                          </form>
-                        </div>
-                        <div>
-                          <h2>Create account</h2>
-                          <span class="js-create-account-err err-message" aria-hidden="true" aria-live="assertive"></span>
-                          <form action="" id="js-create-account-form" class="create-account-form">
-                            <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
-                            <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
-                            <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
-                            <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password (min 10 characters)" minlength="10" required>
-                            <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" minlength="10" required>
-                            <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
-                          </form>
-                        </div>
-                      </div>`);
+    $('#main').append(
+      `<div id="start-page">
+        <div>
+          <h2>Sign in</h2>
+          <span class="js-login-err err-message" aria-hidden="true" aria-live="assertive"></span>
+          <form action="" id="js-login-form" class="login-form">
+            <input type="text" name="username" id="js-username" aria-label="Email address" placeholder="Registered email address" required>
+            <input type="password" id="js-user-pw" aria-label="Password" placeholder="Password" required>
+            <input type="submit" value="log in" id="js-login-submit" aria-label="Log in" onclick="loginSubmit()">
+          </form>
+        </div>
+        <div>
+          <h2>Create account</h2>
+          <span class="js-create-account-err err-message" aria-hidden="true" aria-live="assertive"></span>
+          <form action="" id="js-create-account-form" class="create-account-form">
+            <input type="text" name="firstname" id="js-firstname" aria-label="First name" placeholder="First name">
+            <input type="text" name="lastname" id="js-lastname" aria-label="Last name" placeholder="Last name">
+            <input type="email" name="email" id="js-new-user" aria-label="Your email address" placeholder="Your email address" required>
+            <input type="password" id="js-new-pw" aria-label="Password" placeholder="Password (min 10 characters)" minlength="10" required>
+            <input type="password" id="js-confirm-pw" aria-label="Re-enter password" placeholder="Re-enter password" minlength="10" required>
+            <input type="submit" value="Create account" id="js-create-account-submit" aria-label="Create account" onclick="createAccountSubmit()">
+          </form>
+        </div>
+      </div>`);
   }
 }
-
+// start your engines!
 $(initClient);
